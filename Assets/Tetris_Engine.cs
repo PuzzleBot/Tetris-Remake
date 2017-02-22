@@ -70,6 +70,14 @@ public class Tetris_Engine : MonoBehaviour {
 			}
 		}
 
+		/*Down key accelerates gravity*/
+		if(Input.GetKeyDown("s")){
+			gravityUpdateCount = 5;
+		}
+		else if (Input.GetKeyUp ("s")) {
+			gravityUpdateCount = 30;
+		}
+
 		/*Gravity tick per half second*/
 		if (gravityCounter >= gravityUpdateCount) {
 			pieceGravity ();
@@ -90,5 +98,9 @@ public class Tetris_Engine : MonoBehaviour {
 	public void pieceGravity(){
 		pieceTopLeftBlockPos--;
 		currentPiece.gravity ();
+	}
+
+	public void collision(){
+		
 	}
 }

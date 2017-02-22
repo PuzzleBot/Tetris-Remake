@@ -22,7 +22,7 @@ public class TetrisBlock{
 	private static Material boxMaterial = Resources.Load("Piece7_Mat", typeof(Material)) as Material;
 
 	/*Allowed player movements for pieces*/
-	enum MoveType {LEFT, RIGHT, ROTATE_LEFT, ROTATE_RIGHT, DOWN, FORCE_DOWN};
+	public enum MoveType {LEFT, RIGHT, ROTATE_LEFT, ROTATE_RIGHT, DOWN, FORCE_DOWN};
 
 	/*Defines a offsets from the bottom-left block, in xyz coordinates
 	 *in order to shape the tetris block*/
@@ -229,8 +229,9 @@ public class TetrisBlock{
 		warpTo (bottomLeftBlockPosition + rightMoveAmount);
 	}
 
-	/*Convert the model's 3D vector coordinates into 2D grid coordinates*/
+	/*Convert the model's 3D vector predicted coordinates after a movement into 2D grid coordinates*/
 	public Vector2[] calculateOccupiedGrid(MoveType movement){
+		Vector3[] adjustedPositions = new Vector3[4];
 		Vector2[] occupiedSquares = new Vector2[4];
 
 		switch (movement) {
