@@ -5,7 +5,10 @@ using UnityEngine;
 public class TetrisBlock{
 	/*Predefine position vectors for use later*/
 	private static Vector3 nextPiecePosition = new Vector3 ((float)19.0, (float)11.0, (float)8.0);
-	private static Vector3 playAreaPosition = new Vector3 ((float)-0.5, (float)11.0, (float)15.5);
+	private static Vector3 playAreaPosition = new Vector3 ((float)-0.5, (float)11.0, (float)14.5);
+
+	private const double LEFT_WALL_X = -7.5;
+	private const double BOTTOM_Z = -14.5;
 
 	/*Predefine movement vectors*/
 	private static Vector3 gravityAmount = new Vector3 (0, 0, 1);
@@ -185,7 +188,7 @@ public class TetrisBlock{
 	}
 
 	public void warpTo(Vector3 position){
-		bottomLeftBlockPosition = position;
+		bottomLeftBlockPosition.Set(position.x, position.y, position.z);
 		blockModel [0].transform.position = bottomLeftBlockPosition + blockConfiguration[0];
 		blockModel [1].transform.position = bottomLeftBlockPosition + blockConfiguration[1];
 		blockModel [2].transform.position = bottomLeftBlockPosition + blockConfiguration[2];
@@ -194,7 +197,7 @@ public class TetrisBlock{
 
 	/*Teleport this piece into the "next piece" box*/
 	public void warpToNextPiecePosition(){
-		bottomLeftBlockPosition = nextPiecePosition;
+		bottomLeftBlockPosition.Set(nextPiecePosition.x, nextPiecePosition.y, nextPiecePosition.z);
 		blockModel [0].transform.position = blockConfiguration [0] + nextPiecePosition;
 		blockModel [1].transform.position = blockConfiguration [1] + nextPiecePosition;
 		blockModel [2].transform.position = blockConfiguration [2] + nextPiecePosition;
@@ -203,7 +206,7 @@ public class TetrisBlock{
 
 	/*Teleport this piece into the play area, where all the pieces start*/
 	public void warpToPlayAreaPosition(){
-		bottomLeftBlockPosition = playAreaPosition;
+		bottomLeftBlockPosition.Set(playAreaPosition.x, playAreaPosition.y, playAreaPosition.z);
 		blockModel [0].transform.position = blockConfiguration [0] + playAreaPosition;
 		blockModel [1].transform.position = blockConfiguration [1] + playAreaPosition;
 		blockModel [2].transform.position = blockConfiguration [2] + playAreaPosition;
@@ -212,11 +215,7 @@ public class TetrisBlock{
 
 	/*Move the piece down based on gravity*/
 	public void gravity(){
-		bottomLeftBlockPosition = bottomLeftBlockPosition - gravityAmount;
-		blockModel [0].transform.position = blockModel [0].transform.position - gravityAmount;
-		blockModel [1].transform.position = blockModel [1].transform.position - gravityAmount;
-		blockModel [2].transform.position = blockModel [2].transform.position - gravityAmount;
-		blockModel [3].transform.position = blockModel [3].transform.position - gravityAmount;
+		warpTo (bottomLeftBlockPosition - gravityAmount);
 	}
 
 	/*Use when the left key is pushed*/
@@ -229,20 +228,59 @@ public class TetrisBlock{
 		warpTo (bottomLeftBlockPosition + rightMoveAmount);
 	}
 
+	/*Convert the model's current 3D vector coordinates into 2D grid coordinates*/
+	public Vector2[] getCurrentOccupiedGrid(){
+		Vector2[] occupiedSquares = new Vector2[4];
+		int i;
+
+		/*Transform the x and z coordinates so that the leftmost x and bottommost z are zero*/
+		for (i = 0; i < 4; i++) {
+			occupiedSquares [i] = new Vector2 ((int)System.Math.Round(bottomLeftBlockPosition.x + blockConfiguration[i].x - LEFT_WALL_X), 
+				(int)System.Math.Round(bottomLeftBlockPosition.z + blockConfiguration[i].z - BOTTOM_Z));
+		}
+
+		return(occupiedSquares);
+	}
+
 	/*Convert the model's 3D vector predicted coordinates after a movement into 2D grid coordinates*/
 	public Vector2[] calculateOccupiedGrid(MoveType movement){
 		Vector3[] adjustedPositions = new Vector3[4];
 		Vector2[] occupiedSquares = new Vector2[4];
 
+		int i;
+
 		switch (movement) {
 		case MoveType.LEFT:
+			adjustedPositions [0] = bottomLeftBlockPosition + blockConfiguration [0] + leftMoveAmount;
+			adjustedPositions [1] = bottomLeftBlockPosition + blockConfiguration [1] + leftMoveAmount;
+			adjustedPositions [2] = bottomLeftBlockPosition + blockConfiguration [2] + leftMoveAmount;
+			adjustedPositions [3] = bottomLeftBlockPosition + blockConfiguration [3] + leftMoveAmount;
 			break;
 		case MoveType.RIGHT:
+			adjustedPositions [0] = bottomLeftBlockPosition + blockConfiguration[0] + rightMoveAmount;
+			adjustedPositions [1] = bottomLeftBlockPosition + blockConfiguration[1] + rightMoveAmount;
+			adjustedPositions [2] = bottomLeftBlockPosition + blockConfiguration[2] + rightMoveAmount;
+			adjustedPositions [3] = bottomLeftBlockPosition + blockConfiguration[3] + rightMoveAmount;
 			break;
 		case MoveType.DOWN:
+			adjustedPositions [0] = bottomLeftBlockPosition + blockConfiguration [0] - gravityAmount;
+			adjustedPositions [1] = bottomLeftBlockPosition + blockConfiguration [1] - gravityAmount;
+			adjustedPositions [2] = bottomLeftBlockPosition + blockConfiguration [2] - gravityAmount;
+			adjustedPositions [3] = bottomLeftBlockPosition + blockConfiguration [3] - gravityAmount;
 			break;
 		default:
+			adjustedPositions [0] = bottomLeftBlockPosition + blockConfiguration [0] - gravityAmount;
+			adjustedPositions [1] = bottomLeftBlockPosition + blockConfiguration [1] - gravityAmount;
+			adjustedPositions [2] = bottomLeftBlockPosition + blockConfiguration [2] - gravityAmount;
+			adjustedPositions [3] = bottomLeftBlockPosition + blockConfiguration [3] - gravityAmount;
+			Debug.Log ("Warning: Defaulting to downward movement.");
 			break;
+		}
+
+		/*Transform the x and z coordinates so that the leftmost x and bottommost z are zero*/
+		for (i = 0; i < 4; i++) {
+			occupiedSquares [i] = new Vector2 ((int)System.Math.Round(adjustedPositions [i].x - LEFT_WALL_X), 
+											   (int)System.Math.Round(adjustedPositions [i].z - BOTTOM_Z));
 		}
 
 		return(occupiedSquares);

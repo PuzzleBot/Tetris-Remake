@@ -46,8 +46,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\TetrisBlock.cs" />
-     <Compile Include="Assets\Tetris_Engine.cs" />
+     <Compile Include="Assets\Scripts\GameGrid.cs" />
+     <Compile Include="Assets\Scripts\TetrisBlock.cs" />
+     <Compile Include="Assets\Scripts\Tetris_Engine.cs" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>

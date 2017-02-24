@@ -1,8 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/TetrisBlock.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TetrisBlock.cs">
     <Files>
-      <File FileName="Assets/TetrisBlock.cs" Line="25" Column="23" />
+      <File FileName="Assets/Scripts/TetrisBlock.cs" Line="277" Column="4" />
+      <File FileName="Assets/Scripts/GameGrid.cs" Line="62" Column="41" />
+      <File FileName="Assets/Scripts/Tetris_Engine.cs" Line="34" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

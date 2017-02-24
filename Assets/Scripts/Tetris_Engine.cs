@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Tetris_Engine : MonoBehaviour {
-	private const int PLAY_AREA_HEIGHT = 30;
-	private const int PLAY_AREA_WIDTH = 16;
-
-	private int[][] blockGrid;
+	private GameGrid grid;
 
 	private TetrisBlock currentPiece;
 	private TetrisBlock nextPiece;
-
-	private int pieceTopLeftBlockPos;
-	private bool pieceIsAtBottom;
 
 	private int gravityCounter;
 	private int gravityUpdateCount;
@@ -20,19 +14,11 @@ public class Tetris_Engine : MonoBehaviour {
 	private int keyCounter;
 	private int keyCooldown;
 
+	private bool gameIsPaused;
+
 	// Use this for initialization
 	public void Start () {
-		int i;
-		int j;
-
-		/*Game area block grid initialization*/
-		blockGrid = new int[PLAY_AREA_HEIGHT][];
-		for (i = 0; i < PLAY_AREA_HEIGHT; i++) {
-			blockGrid [i] = new int[PLAY_AREA_WIDTH];
-			for (j = 0; j < PLAY_AREA_WIDTH; j++) {
-				blockGrid [i] [j] = 0;
-			}
-		}
+		grid = new GameGrid ();
 
 		/*Piece buffer initialization*/
 		currentPiece = new TetrisBlock (0);
@@ -47,13 +33,20 @@ public class Tetris_Engine : MonoBehaviour {
 		keyCounter = 0;
 		keyCooldown = 10;
 
-		pieceTopLeftBlockPos = 27;
-		pieceIsAtBottom = false;
+		gameIsPaused = false;
 
 	}
 	
 	// Update is called once per frame
 	public void Update () {
+		if(Input.GetKey("p")){
+			togglePause ();
+		}
+
+		if (gameIsPaused == true) {
+			return;
+		}
+
 		gravityCounter++;
 
 		/*Key check*/
@@ -62,10 +55,15 @@ public class Tetris_Engine : MonoBehaviour {
 		}
 		else {
 			if (Input.GetKey ("a")) {
-				currentPiece.shiftLeft ();
+				/*Collision check for left movement*/
+				if(!grid.collision(TetrisBlock.MoveType.LEFT, currentPiece)){
+					currentPiece.shiftLeft ();
+				}
 				keyCounter = 0;
 			} else if (Input.GetKey ("d")) {
-				currentPiece.shiftRight ();
+				if(!grid.collision(TetrisBlock.MoveType.RIGHT, currentPiece)){
+					currentPiece.shiftRight ();
+				}
 				keyCounter = 0;
 			}
 		}
@@ -96,11 +94,17 @@ public class Tetris_Engine : MonoBehaviour {
 	}
 
 	public void pieceGravity(){
-		pieceTopLeftBlockPos--;
-		currentPiece.gravity ();
+		if(!grid.collision(TetrisBlock.MoveType.DOWN, currentPiece)){
+			/*Move down if there is no collision*/
+			currentPiece.gravity ();
+		}
 	}
 
-	public void collision(){
-		
+	public void togglePause(){
+		if (gameIsPaused == false) {
+			gameIsPaused = true;
+		} else {
+			gameIsPaused = false;
+		}
 	}
 }
