@@ -39,6 +39,7 @@ public class Tetris_Engine : MonoBehaviour {
 	
 	// Update is called once per frame
 	public void Update () {
+		/*Game paused*/
 		if(Input.GetKey("p")){
 			togglePause ();
 		}
@@ -78,7 +79,13 @@ public class Tetris_Engine : MonoBehaviour {
 
 		/*Gravity tick per half second*/
 		if (gravityCounter >= gravityUpdateCount) {
-			pieceGravity ();
+			if (!grid.collision (TetrisBlock.MoveType.DOWN, currentPiece)) {
+				/*Move down if there is no collision*/
+				currentPiece.gravity ();
+			} else {
+				moveNextPieceToCurrent ();
+				generateNextPiece ();
+			}
 			gravityCounter = 0;
 		}
 	}
@@ -91,13 +98,6 @@ public class Tetris_Engine : MonoBehaviour {
 	public void moveNextPieceToCurrent(){
 		currentPiece.changeType (nextPiece.getBlockType());
 		currentPiece.warpToPlayAreaPosition();
-	}
-
-	public void pieceGravity(){
-		if(!grid.collision(TetrisBlock.MoveType.DOWN, currentPiece)){
-			/*Move down if there is no collision*/
-			currentPiece.gravity ();
-		}
 	}
 
 	public void togglePause(){

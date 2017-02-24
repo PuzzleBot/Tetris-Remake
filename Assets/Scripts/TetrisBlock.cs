@@ -73,6 +73,27 @@ public class TetrisBlock{
 		return blockType;
 	}
 
+	public Material getBlockMaterial(){
+		switch (blockType) {
+		case 1:
+			return(lineMaterial);
+		case 2:
+			return(sMaterial);
+		case 3:
+			return(zMaterial);
+		case 4:
+			return(tMaterial);
+		case 5:
+			return(lMaterial);
+		case 6:
+			return(backlMaterial);
+		case 7:
+			return(boxMaterial);
+		default:
+			return(lineMaterial);
+		}
+	}
+
 	public void changeType(int newType){
 		this.blockType = newType;
 		switch (newType) {
@@ -241,6 +262,19 @@ public class TetrisBlock{
 
 		return(occupiedSquares);
 	}
+
+	/*Get the positions of the blocks in the visual model*/
+	public Vector3[] getBlockModelPositions(){
+		Vector3[] positions = new Vector3[4];
+		int i;
+
+		for (i = 0; i < 4; i++) {
+			positions [i] = blockModel [i].GetComponent<Transform> ().position;
+		}
+
+		return(positions);
+	}
+
 
 	/*Convert the model's 3D vector predicted coordinates after a movement into 2D grid coordinates*/
 	public Vector2[] calculateOccupiedGrid(MoveType movement){

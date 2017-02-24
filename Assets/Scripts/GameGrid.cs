@@ -56,7 +56,17 @@ public class GameGrid{
 			/*Collision - do nothing unless its a downward collsion, in which the piece should be rooted in place 
 			  (i.e. the grid should be updated), and the player's control should be directed to the next piece*/
 			if (movementType == TetrisBlock.MoveType.DOWN) {
-				
+				Vector2[] rootedGridPositions = block.getCurrentOccupiedGrid ();
+				Vector3[] cubeModelPositions = block.getBlockModelPositions ();
+				Material fillinMaterial = block.getBlockMaterial ();
+
+				for (i = 0; i < 4; i++) {
+					/*Update the game grid, and put in the actual blocks*/
+					blockGrid [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x] = 1;
+					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x] = GameObject.CreatePrimitive (PrimitiveType.Cube);
+					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].GetComponent<Transform> ().position = cubeModelPositions[i];
+					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].GetComponent<Renderer> ().material = fillinMaterial;
+				}
 			}
 		}
 
