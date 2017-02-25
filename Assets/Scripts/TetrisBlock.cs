@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TetrisBlock{
+
+/*Object class representing a tetris piece.*/
+public abstract class TetrisBlock{
 	/*Predefine position vectors for use later*/
 	private static Vector3 nextPiecePosition = new Vector3 ((float)19.0, (float)11.0, (float)8.0);
 	private static Vector3 playAreaPosition = new Vector3 ((float)-0.5, (float)11.0, (float)14.5);
@@ -15,27 +17,20 @@ public class TetrisBlock{
 	private static Vector3 leftMoveAmount = new Vector3 (-1, 0, 0);
 	private static Vector3 rightMoveAmount = new Vector3 (1, 0, 0);
 
-	/*Preload materials for the tetris blocks*/
-	private static Material lineMaterial = Resources.Load("Piece1_Mat", typeof(Material)) as Material;
-	private static Material sMaterial = Resources.Load("Piece2_Mat", typeof(Material)) as Material;
-	private static Material zMaterial = Resources.Load("Piece3_Mat", typeof(Material)) as Material;
-	private static Material tMaterial = Resources.Load("Piece4_Mat", typeof(Material)) as Material;
-	private static Material lMaterial = Resources.Load("Piece5_Mat", typeof(Material)) as Material;
-	private static Material backlMaterial = Resources.Load("Piece6_Mat", typeof(Material)) as Material;
-	private static Material boxMaterial = Resources.Load("Piece7_Mat", typeof(Material)) as Material;
-
 	/*Allowed player movements for pieces*/
 	public enum MoveType {LEFT, RIGHT, ROTATE_LEFT, ROTATE_RIGHT, DOWN, FORCE_DOWN};
 
+
+
 	/*Defines a offsets from the bottom-left block, in xyz coordinates
 	 *in order to shape the tetris block*/
-	private Vector3[] blockConfiguration;
+	protected Vector3[] blockConfiguration;
 
-	private int blockType;
-	private GameObject[] blockModel;
+	protected int blockType;
+	protected GameObject[] blockModel;
 
-	private Vector3 bottomLeftBlockPosition;
-	private int rotateState;
+	protected Vector3 bottomLeftBlockPosition;
+	protected int rotateState;
 
 	/* Create a new tetris block of a given type, and place it in the "next piece" area
 	 * - use type 0 for a random piece*/
@@ -52,152 +47,17 @@ public class TetrisBlock{
 			blockModel [i] = GameObject.CreatePrimitive (PrimitiveType.Cube);
 		}
 
-		/*Set the type of block - square, L piece, line piece, etc*/
-		if (blockType == 0) {
-			changeToRandom ();
-		} else {
-			changeType (blockType);
-		}
-
 		rotateState = 0;
+		this.blockType = blockType;
 
 		bottomLeftBlockPosition = new Vector3();
-		warpToNextPiecePosition ();
-	}
-
-	public void clear(){
-		blockType = 0;
 	}
 
 	public int getBlockType(){
 		return blockType;
 	}
 
-	public Material getBlockMaterial(){
-		switch (blockType) {
-		case 1:
-			return(lineMaterial);
-		case 2:
-			return(sMaterial);
-		case 3:
-			return(zMaterial);
-		case 4:
-			return(tMaterial);
-		case 5:
-			return(lMaterial);
-		case 6:
-			return(backlMaterial);
-		case 7:
-			return(boxMaterial);
-		default:
-			return(lineMaterial);
-		}
-	}
-
-	public void changeType(int newType){
-		this.blockType = newType;
-		switch (newType) {
-		case 1:
-			/*Line*/
-			blockConfiguration [0].Set (1, 0, 0);
-			blockConfiguration [1].Set (1, 0, 1);
-			blockConfiguration [2].Set (1, 0, 2);
-			blockConfiguration [3].Set (1, 0, 3);
-			blockModel [0].GetComponent<Renderer> ().material = lineMaterial;
-			blockModel [1].GetComponent<Renderer> ().material = lineMaterial;
-			blockModel [2].GetComponent<Renderer> ().material = lineMaterial;
-			blockModel [3].GetComponent<Renderer> ().material = lineMaterial;
-			break;
-		case 2:
-			/* S */
-			blockConfiguration [0].Set(0, 0, 0);
-			blockConfiguration [1].Set(1, 0, 0);
-			blockConfiguration [2].Set(1, 0, 1);
-			blockConfiguration [3].Set(2, 0, 1);
-			blockModel [0].GetComponent<Renderer> ().material = sMaterial;
-			blockModel [1].GetComponent<Renderer> ().material = sMaterial;
-			blockModel [2].GetComponent<Renderer> ().material = sMaterial;
-			blockModel [3].GetComponent<Renderer> ().material = sMaterial;
-			break;
-		case 3:
-			/* Z */
-			blockConfiguration [0].Set(0, 0, 1);
-			blockConfiguration [1].Set(1, 0, 1);
-			blockConfiguration [2].Set(1, 0, 0);
-			blockConfiguration [3].Set(2, 0, 0);
-			blockModel [0].GetComponent<Renderer> ().material = zMaterial;
-			blockModel [1].GetComponent<Renderer> ().material = zMaterial;
-			blockModel [2].GetComponent<Renderer> ().material = zMaterial;
-			blockModel [3].GetComponent<Renderer> ().material = zMaterial;
-			break;
-		case 4:
-			/* T */
-			blockConfiguration [0].Set(0, 0, 0);
-			blockConfiguration [1].Set(1, 0, 0);
-			blockConfiguration [2].Set(1, 0, 1);
-			blockConfiguration [3].Set(2, 0, 0);
-			blockModel [0].GetComponent<Renderer> ().material = tMaterial;
-			blockModel [1].GetComponent<Renderer> ().material = tMaterial;
-			blockModel [2].GetComponent<Renderer> ().material = tMaterial;
-			blockModel [3].GetComponent<Renderer> ().material = tMaterial;
-			break;
-		case 5:
-			/* L */
-			blockConfiguration [0].Set(1, 0, 0);
-			blockConfiguration [1].Set(2, 0, 0);
-			blockConfiguration [2].Set(1, 0, 1);
-			blockConfiguration [3].Set(1, 0, 2);
-			blockModel [0].GetComponent<Renderer> ().material = lMaterial;
-			blockModel [1].GetComponent<Renderer> ().material = lMaterial;
-			blockModel [2].GetComponent<Renderer> ().material = lMaterial;
-			blockModel [3].GetComponent<Renderer> ().material = lMaterial;
-			break;
-		case 6:
-			/*Backwards L*/
-			blockConfiguration [0].Set(0, 0, 0);
-			blockConfiguration [1].Set(1, 0, 0);
-			blockConfiguration [2].Set(1, 0, 1);
-			blockConfiguration [3].Set(1, 0, 2);
-			blockModel [0].GetComponent<Renderer> ().material = backlMaterial;
-			blockModel [1].GetComponent<Renderer> ().material = backlMaterial;
-			blockModel [2].GetComponent<Renderer> ().material = backlMaterial;
-			blockModel [3].GetComponent<Renderer> ().material = backlMaterial;
-			break;
-		case 7:
-			/*2x2 block*/
-			blockConfiguration [0].Set(1, 0, 0);
-			blockConfiguration [1].Set(1, 0, 1);
-			blockConfiguration [2].Set(2, 0, 0);
-			blockConfiguration [3].Set(2, 0, 1);
-			blockModel [0].GetComponent<Renderer> ().material = boxMaterial;
-			blockModel [1].GetComponent<Renderer> ().material = boxMaterial;
-			blockModel [2].GetComponent<Renderer> ().material = boxMaterial;
-			blockModel [3].GetComponent<Renderer> ().material = boxMaterial;
-			break;
-		default:
-			/*Default to a line*/
-			blockConfiguration [0].Set(1, 0, 0);
-			blockConfiguration [1].Set(1, 0, 1);
-			blockConfiguration [2].Set(1, 0, 2);
-			blockConfiguration [3].Set(1, 0, 3);
-			blockModel [0].GetComponent<Renderer> ().material = lineMaterial;
-			blockModel [1].GetComponent<Renderer> ().material = lineMaterial;
-			blockModel [2].GetComponent<Renderer> ().material = lineMaterial;
-			blockModel [3].GetComponent<Renderer> ().material = lineMaterial;
-			break;
-		}
-
-		blockModel [0].transform.position = bottomLeftBlockPosition + blockConfiguration[0];
-		blockModel [1].transform.position = bottomLeftBlockPosition + blockConfiguration[1];
-		blockModel [2].transform.position = bottomLeftBlockPosition + blockConfiguration[2];
-		blockModel [3].transform.position = bottomLeftBlockPosition + blockConfiguration[3];
-	}
-
-	/*Changes this piece to a different random one*/
-	public void changeToRandom(){
-		blockType = UnityEngine.Random.Range (1, 8);
-		changeType (blockType);
-	}
+	public abstract Material getBlockMaterial ();
 
 	/*Teleport this piece to the specified coordinates*/
 	public void warpTo(float xpos, float ypos, float zpos){
@@ -275,6 +135,10 @@ public class TetrisBlock{
 		return(positions);
 	}
 
+	public int getLowestOccupiedGridY(){
+		return((int)System.Math.Round(bottomLeftBlockPosition.z - BOTTOM_Z));
+	}
+
 
 	/*Convert the model's 3D vector predicted coordinates after a movement into 2D grid coordinates*/
 	public Vector2[] calculateOccupiedGrid(MoveType movement){
@@ -318,5 +182,16 @@ public class TetrisBlock{
 		}
 
 		return(occupiedSquares);
+	}
+
+	public abstract Vector3[] getNextRotationConfiguration ();
+	public abstract Vector3[] getPreviousRotationConfiguration ();
+
+	public void destroyModel(){
+		int i;
+
+		for (i = 0; i < 4; i++) {
+			GameObject.Destroy (blockModel [i]);
+		}
 	}
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*Object class responsible for tracking the contents of the game space
+  and the cubes within it.*/
 public class GameGrid{
 	private const int PLAY_AREA_HEIGHT = 34;
 	private const int PLAY_AREA_WIDTH = 16;
@@ -67,13 +70,26 @@ public class GameGrid{
 					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].GetComponent<Transform> ().position = cubeModelPositions[i];
 					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].GetComponent<Renderer> ().material = fillinMaterial;
 				}
+
+				block.destroyModel ();
 			}
 		}
 
 		return(collisionImminent);
 	}
 
-	public int checkForLines(){
+	public int checkForLines(TetrisBlock rootedBlock){
+		int checkLowerBound = rootedBlock.getLowestOccupiedGridY ();
+		int i;
+		int j;
+
+		for (i = checkLowerBound; i < checkLowerBound + 4; i++) {
+			for (j = 0; j < PLAY_AREA_WIDTH; j++) {
+				
+			}
+		}
+
+
 		return(0);
 	}
 }

@@ -47,7 +47,15 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\GameGrid.cs" />
+     <Compile Include="Assets\Scripts\TetrisBackLBlock.cs" />
      <Compile Include="Assets\Scripts\TetrisBlock.cs" />
+     <Compile Include="Assets\Scripts\TetrisBlockFactory.cs" />
+     <Compile Include="Assets\Scripts\TetrisLBlock.cs" />
+     <Compile Include="Assets\Scripts\TetrisLineBlock.cs" />
+     <Compile Include="Assets\Scripts\TetrisSBlock.cs" />
+     <Compile Include="Assets\Scripts\TetrisSquareBlock.cs" />
+     <Compile Include="Assets\Scripts\TetrisTBlock.cs" />
+     <Compile Include="Assets\Scripts\TetrisZBlock.cs" />
      <Compile Include="Assets\Scripts\Tetris_Engine.cs" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>

@@ -2,12 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*Singleton class responsible for driving the game's behaviour.
+  This class talks to both the GameGrid object and the two
+  TetrisBlock objects to make sure the game operates properly.*/
 public class Tetris_Engine : MonoBehaviour {
 	private GameGrid grid;
+
+	private TetrisBlockFactory pieceFactory;
 
 	private TetrisBlock currentPiece;
 	private TetrisBlock nextPiece;
 
+	/*Scoring variables*/
+	int score;
+	int linesDestroyed;
+	int level;
+
+	/*Timer counters*/
 	private int gravityCounter;
 	private int gravityUpdateCount;
 
@@ -19,13 +30,12 @@ public class Tetris_Engine : MonoBehaviour {
 	// Use this for initialization
 	public void Start () {
 		grid = new GameGrid ();
+		pieceFactory = new TetrisBlockFactory();
 
 		/*Piece buffer initialization*/
-		currentPiece = new TetrisBlock (0);
-		nextPiece = new TetrisBlock (0);
-
+		nextPiece = pieceFactory.createNewBlock(0);
 		moveNextPieceToCurrent ();
-		generateNextPiece ();
+		nextPiece = pieceFactory.createNewBlock(0);
 
 		gravityCounter = 0;
 		gravityUpdateCount = 30;
@@ -83,6 +93,10 @@ public class Tetris_Engine : MonoBehaviour {
 				/*Move down if there is no collision*/
 				currentPiece.gravity ();
 			} else {
+				/*Downward collision - the piece has been rooted in place.
+				  Check for filled lines to clear.*/
+				linesDestroyed = grid.checkForLines (currentPiece);
+
 				moveNextPieceToCurrent ();
 				generateNextPiece ();
 			}
@@ -92,12 +106,14 @@ public class Tetris_Engine : MonoBehaviour {
 
 	/*Pick a new piece at random*/
 	public void generateNextPiece(){
-		nextPiece.changeToRandom ();
+		nextPiece.destroyModel();
+		nextPiece = pieceFactory.createNewBlock (0);
 	}
 
 	public void moveNextPieceToCurrent(){
-		currentPiece.changeType (nextPiece.getBlockType());
+		currentPiece = pieceFactory.createNewBlock(nextPiece.getBlockType());
 		currentPiece.warpToPlayAreaPosition();
+		nextPiece.destroyModel ();
 	}
 
 	public void togglePause(){
