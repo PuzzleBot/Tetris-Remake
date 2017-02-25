@@ -5,7 +5,6 @@ using UnityEngine;
 /*T-shaped piece*/
 public class TetrisTBlock : TetrisBlock {
 	private static Material blockMaterial = Resources.Load("Piece4_Mat", typeof(Material)) as Material;
-	private static int maxRotationStates = 4;
 
 	private Vector3[][] rotationConfigurations;
 
@@ -15,6 +14,7 @@ public class TetrisTBlock : TetrisBlock {
 		blockModel [2].GetComponent<Renderer> ().material = blockMaterial;
 		blockModel [3].GetComponent<Renderer> ().material = blockMaterial;
 
+		maxRotationStates = 4;
 		rotationConfigurations = new Vector3[4][];
 
 		rotationConfigurations [0] = new Vector3[4];

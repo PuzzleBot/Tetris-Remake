@@ -5,7 +5,6 @@ using UnityEngine;
 /*Z-shaped piece*/
 public class TetrisZBlock : TetrisBlock {
 	private static Material blockMaterial = Resources.Load("Piece3_Mat", typeof(Material)) as Material;
-	private static int maxRotationStates = 2;
 
 	private Vector3[][] rotationConfigurations;
 
@@ -15,6 +14,7 @@ public class TetrisZBlock : TetrisBlock {
 		blockModel [2].GetComponent<Renderer> ().material = blockMaterial;
 		blockModel [3].GetComponent<Renderer> ().material = blockMaterial;
 
+		maxRotationStates = 2;
 		rotationConfigurations = new Vector3[2][];
 
 		rotationConfigurations [0] = new Vector3[4];

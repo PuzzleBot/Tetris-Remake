@@ -76,6 +76,16 @@ public class Tetris_Engine : MonoBehaviour {
 					currentPiece.shiftRight ();
 				}
 				keyCounter = 0;
+			} else if (Input.GetKey("q")){
+				if(!grid.collision(TetrisBlock.MoveType.ROTATE_LEFT, currentPiece)){
+					currentPiece.rotateRight ();
+				}
+				keyCounter = 0;
+			} else if (Input.GetKey("e")){
+				if(!grid.collision(TetrisBlock.MoveType.ROTATE_RIGHT, currentPiece)){
+					currentPiece.rotateRight ();
+				}
+				keyCounter = 0;
 			}
 		}
 

@@ -20,7 +20,7 @@ public abstract class TetrisBlock{
 	/*Allowed player movements for pieces*/
 	public enum MoveType {LEFT, RIGHT, ROTATE_LEFT, ROTATE_RIGHT, DOWN, FORCE_DOWN};
 
-
+	protected int maxRotationStates;
 
 	/*Defines a offsets from the bottom-left block, in xyz coordinates
 	 *in order to shape the tetris block*/
@@ -48,6 +48,7 @@ public abstract class TetrisBlock{
 		}
 
 		rotateState = 0;
+		maxRotationStates = 1;
 		this.blockType = blockType;
 
 		bottomLeftBlockPosition = new Vector3();
@@ -109,6 +110,24 @@ public abstract class TetrisBlock{
 		warpTo (bottomLeftBlockPosition + rightMoveAmount);
 	}
 
+	public void rotateLeft(){
+		blockConfiguration = getPreviousRotationConfiguration ();
+		blockModel [0].transform.position = bottomLeftBlockPosition + blockConfiguration[0];
+		blockModel [1].transform.position = bottomLeftBlockPosition + blockConfiguration[1];
+		blockModel [2].transform.position = bottomLeftBlockPosition + blockConfiguration[2];
+		blockModel [3].transform.position = bottomLeftBlockPosition + blockConfiguration[3];
+		rotateState = System.Math.Abs(rotateState - 1) % maxRotationStates;
+	}
+
+	public void rotateRight(){
+		blockConfiguration = getNextRotationConfiguration ();
+		blockModel [0].transform.position = bottomLeftBlockPosition + blockConfiguration[0];
+		blockModel [1].transform.position = bottomLeftBlockPosition + blockConfiguration[1];
+		blockModel [2].transform.position = bottomLeftBlockPosition + blockConfiguration[2];
+		blockModel [3].transform.position = bottomLeftBlockPosition + blockConfiguration[3];
+		rotateState = (rotateState + 1) % maxRotationStates;
+	}
+
 	/*Convert the model's current 3D vector coordinates into 2D grid coordinates*/
 	public Vector2[] getCurrentOccupiedGrid(){
 		Vector2[] occupiedSquares = new Vector2[4];
@@ -143,6 +162,7 @@ public abstract class TetrisBlock{
 	/*Convert the model's 3D vector predicted coordinates after a movement into 2D grid coordinates*/
 	public Vector2[] calculateOccupiedGrid(MoveType movement){
 		Vector3[] adjustedPositions = new Vector3[4];
+		Vector3[] rotationConfiguration;
 		Vector2[] occupiedSquares = new Vector2[4];
 
 		int i;
@@ -166,6 +186,20 @@ public abstract class TetrisBlock{
 			adjustedPositions [2] = bottomLeftBlockPosition + blockConfiguration [2] - gravityAmount;
 			adjustedPositions [3] = bottomLeftBlockPosition + blockConfiguration [3] - gravityAmount;
 			break;
+		case MoveType.ROTATE_LEFT:
+			rotationConfiguration = getPreviousRotationConfiguration ();
+			adjustedPositions [0] = bottomLeftBlockPosition + rotationConfiguration [0];
+			adjustedPositions [1] = bottomLeftBlockPosition + rotationConfiguration [1];
+			adjustedPositions [2] = bottomLeftBlockPosition + rotationConfiguration [2];
+			adjustedPositions [3] = bottomLeftBlockPosition + rotationConfiguration [3];
+			break;
+		case MoveType.ROTATE_RIGHT:
+			rotationConfiguration = getNextRotationConfiguration ();
+			adjustedPositions [0] = bottomLeftBlockPosition + rotationConfiguration [0];
+			adjustedPositions [1] = bottomLeftBlockPosition + rotationConfiguration [1];
+			adjustedPositions [2] = bottomLeftBlockPosition + rotationConfiguration [2];
+			adjustedPositions [3] = bottomLeftBlockPosition + rotationConfiguration [3];
+			break;
 		default:
 			adjustedPositions [0] = bottomLeftBlockPosition + blockConfiguration [0] - gravityAmount;
 			adjustedPositions [1] = bottomLeftBlockPosition + blockConfiguration [1] - gravityAmount;
@@ -187,6 +221,7 @@ public abstract class TetrisBlock{
 	public abstract Vector3[] getNextRotationConfiguration ();
 	public abstract Vector3[] getPreviousRotationConfiguration ();
 
+	/*Deletes the visual model of the block.*/
 	public void destroyModel(){
 		int i;
 
