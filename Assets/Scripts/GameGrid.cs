@@ -80,16 +80,31 @@ public class GameGrid{
 
 	public int checkForLines(TetrisBlock rootedBlock){
 		int checkLowerBound = rootedBlock.getLowestOccupiedGridY ();
+		int linesCleared = 0;
+		bool holeFound;
 		int i;
 		int j;
 
 		for (i = checkLowerBound; i < checkLowerBound + 4; i++) {
+			holeFound = false;
 			for (j = 0; j < PLAY_AREA_WIDTH; j++) {
-				
+				if (blockGrid [i] [j] == 0) {
+					/*There's a hole in the line - don't clear*/
+					holeFound = true;
+				}
+			}
+
+			if (holeFound == true) {
+				linesCleared++;
+				clearLine (i);
 			}
 		}
 
 
-		return(0);
+		return(linesCleared);
+	}
+
+	public void clearLine(int row){
+		
 	}
 }

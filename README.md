@@ -1,2 +1,38 @@
 # Tetris-Remake
 A recreation of Tetris in Unity!
+
+
+## Running the program
+The game is still being worked on, using the Unity engine.
+
+One way to run the program is to double-click "Tetris_Remake_Prototype1.app".
+This may not always be up-to-date, though.
+
+Another way to compile and run the game is to open this
+project in the Unity development client, and click the
+play button at the top.
+
+
+## What's Implemented so far?
+
+So far, the following features have been implemented:
+
+* Tetris block generation
+* Tetris block controls, minus the w key
+* Tetris block gravity
+* The basic playing field
+
+
+## What's Next?
+
+* Implementing the w key, which should force the piece to 
+the bottom of the play field
+* Making rows actually clear when they are filled.
+* Win conditions (A scoring system)
+* The lose condition (No more space to insert a new block)
+* A way to quit the game
+* A pause menu
+* An actual title screen
+
+
+
