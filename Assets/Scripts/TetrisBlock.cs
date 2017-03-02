@@ -9,8 +9,8 @@ public abstract class TetrisBlock{
 	private static Vector3 nextPiecePosition = new Vector3 ((float)19.0, (float)11.0, (float)8.0);
 	private static Vector3 playAreaPosition = new Vector3 ((float)-0.5, (float)11.0, (float)14.5);
 
-	private const double LEFT_WALL_X = -7.5;
-	private const double BOTTOM_Z = -14.5;
+	private const double LEFT_WALL_X = -7.55;
+	private const double BOTTOM_Z = -14.55;
 
 	/*Predefine movement vectors*/
 	private static Vector3 gravityAmount = new Vector3 (0, 0, 1);
@@ -135,8 +135,8 @@ public abstract class TetrisBlock{
 
 		/*Transform the x and z coordinates so that the leftmost x and bottommost z are zero*/
 		for (i = 0; i < 4; i++) {
-			occupiedSquares [i] = new Vector2 ((int)System.Math.Round(bottomLeftBlockPosition.x + blockConfiguration[i].x - LEFT_WALL_X), 
-				(int)System.Math.Round(bottomLeftBlockPosition.z + blockConfiguration[i].z - BOTTOM_Z));
+			occupiedSquares [i] = new Vector2 ((int)(System.Math.Round(bottomLeftBlockPosition.x + blockConfiguration[i].x - LEFT_WALL_X)), 
+				(int)(System.Math.Round(bottomLeftBlockPosition.z + blockConfiguration[i].z - BOTTOM_Z)));
 		}
 
 		return(occupiedSquares);
@@ -155,7 +155,16 @@ public abstract class TetrisBlock{
 	}
 
 	public int getLowestOccupiedGridY(){
-		return((int)(System.Math.Round(bottomLeftBlockPosition.z - BOTTOM_Z) + 0.2));
+		int i;
+		double lowestY = 100;
+
+		for(i = 0; i < 4; i++){
+			if (blockModel[i].GetComponent<Transform>().position.z < lowestY) {
+				lowestY = blockModel [i].GetComponent<Transform> ().position.z;
+			}
+		}
+
+		return((int)(System.Math.Round(lowestY - BOTTOM_Z)));
 	}
 
 
@@ -211,8 +220,8 @@ public abstract class TetrisBlock{
 
 		/*Transform the x and z coordinates so that the leftmost x and bottommost z are zero*/
 		for (i = 0; i < 4; i++) {
-			occupiedSquares [i] = new Vector2 ((int)System.Math.Round(adjustedPositions [i].x - LEFT_WALL_X), 
-											   (int)System.Math.Round(adjustedPositions [i].z - BOTTOM_Z));
+			occupiedSquares [i] = new Vector2 ((int)(System.Math.Round(adjustedPositions [i].x - LEFT_WALL_X)), 
+											   (int)(System.Math.Round(adjustedPositions [i].z - BOTTOM_Z)));
 		}
 
 		return(occupiedSquares);

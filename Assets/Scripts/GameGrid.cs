@@ -27,7 +27,7 @@ public class GameGrid : MonoBehaviour {
 		gameEngine = GameObject.Find ("GameRuleEngine").GetComponent<Tetris_Engine> ();
 		if (gameEngine == null) {
 			Debug.Log ("Error: Game grid script not found.\n");
-			System.Environment.Exit (0);
+			Application.Quit ();
 		}
 
 		/*Create the game grid for tracking collisions*/
@@ -131,6 +131,7 @@ public class GameGrid : MonoBehaviour {
 	public void clearLine(int row){
 		animationFramesLeft = PLAY_AREA_WIDTH;
 		linesToClear.Add (row);
+		gameEngine.haltGame ();
 	}
 
 	public void animateOneFrame(){
@@ -139,13 +140,12 @@ public class GameGrid : MonoBehaviour {
 		/*Do this first to make array math easier*/
 		animationFramesLeft--;
 		linesToClear.Sort ();
+		linesToClear.Reverse ();
 
 		/*Iterate through the list of line rows to clear*/
 		foreach(int lineRow in linesToClear) {
 			GameObject.Destroy(gridCubes [lineRow] [animationFramesLeft]);
 			gridCubes [lineRow] [animationFramesLeft] = null;
-
-			Debug.Log ("Clearing line " + lineRow + "\n");
 
 			for (i = lineRow; i < PLAY_AREA_HEIGHT; i++) {
 				/*Move everything above the row down*/

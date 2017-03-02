@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\TetrisTBlock.cs" />
      <Compile Include="Assets\Scripts\TetrisZBlock.cs" />
      <Compile Include="Assets\Scripts\Tetris_Engine.cs" />
+     <None Include="Assets\Resources\8_bit_operator\SIL Open Font License.txt" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>

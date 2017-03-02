@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /*Singleton class responsible for driving the game's behaviour.
   This class talks to both the GameGrid object and the two
@@ -33,7 +34,7 @@ public class Tetris_Engine : MonoBehaviour {
 		grid = GameObject.Find ("GamePanel").GetComponent<GameGrid>();
 		if (grid == null) {
 			Debug.Log ("Error: Game grid script not found.\n");
-			System.Environment.Exit (0);
+			Application.Quit ();
 		}
 
 		pieceFactory = new TetrisBlockFactory();
@@ -42,6 +43,10 @@ public class Tetris_Engine : MonoBehaviour {
 		nextPiece = pieceFactory.createNewBlock(0);
 		moveNextPieceToCurrent ();
 		nextPiece = pieceFactory.createNewBlock(0);
+
+		score = 0;
+		linesDestroyed = 0;
+		level = 1;
 
 		gravityCounter = 0;
 		gravityUpdateCount = 30;
@@ -52,6 +57,7 @@ public class Tetris_Engine : MonoBehaviour {
 		gameIsPaused = false;
 		gameIsHalted = false;
 
+		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = 60;
 	}
 	
@@ -59,6 +65,14 @@ public class Tetris_Engine : MonoBehaviour {
 	public void Update () {
 		if (Input.GetKey (KeyCode.Escape)) {
 			Application.Quit ();
+		}
+
+		/*Down key accelerates gravity*/
+		if(Input.GetKeyDown("s")){
+			gravityUpdateCount = 5;
+		}
+		else if (Input.GetKeyUp ("s")) {
+			gravityUpdateCount = 30;
 		}
 
 		/*Halted for animation: don't do anything*/
@@ -111,14 +125,6 @@ public class Tetris_Engine : MonoBehaviour {
 
 		gravityCounter++;
 
-		/*Down key accelerates gravity*/
-		if(Input.GetKeyDown("s")){
-			gravityUpdateCount = 5;
-		}
-		else if (Input.GetKeyUp ("s")) {
-			gravityUpdateCount = 30;
-		}
-
 		/*Gravity tick per half second*/
 		if (gravityCounter >= gravityUpdateCount) {
 			if (!grid.collision (TetrisBlock.MoveType.DOWN, currentPiece)) {
@@ -127,7 +133,8 @@ public class Tetris_Engine : MonoBehaviour {
 			} else {
 				/*Downward collision - the piece has been rooted in place.
 				  Check for filled lines to clear.*/
-				linesDestroyed = grid.checkForLines (currentPiece);
+				linesDestroyed = linesDestroyed + grid.checkForLines (currentPiece);
+				GameObject.Find ("Canvas/Model_LineText/LineCounter").GetComponent<Text> ().text = linesDestroyed.ToString();
 
 				moveNextPieceToCurrent ();
 				generateNextPiece ();

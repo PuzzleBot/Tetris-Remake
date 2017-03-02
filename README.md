@@ -31,6 +31,7 @@ So far, the following features have been implemented:
 * Tetris block gravity
 * The basic playing field
 * Row clearing
+* Cleared row tracking
 * A quit button (esc)
 
 
@@ -38,6 +39,7 @@ So far, the following features have been implemented:
 
 * Implementing the w key, which should force the piece to 
 the bottom of the play field
+* Piece holding using the spacebar
 * Win conditions (A scoring system)
 * The lose condition (No more space to insert a new block)
 * A pause menu
