@@ -155,7 +155,7 @@ public abstract class TetrisBlock{
 	}
 
 	public int getLowestOccupiedGridY(){
-		return((int)System.Math.Round(bottomLeftBlockPosition.z - BOTTOM_Z));
+		return((int)(System.Math.Round(bottomLeftBlockPosition.z - BOTTOM_Z) + 0.2));
 	}
 
 

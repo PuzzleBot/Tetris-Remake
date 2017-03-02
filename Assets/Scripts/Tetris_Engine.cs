@@ -26,10 +26,16 @@ public class Tetris_Engine : MonoBehaviour {
 	private int keyCooldown;
 
 	private bool gameIsPaused;
+	private bool gameIsHalted;
 
 	// Use this for initialization
 	public void Start () {
-		grid = new GameGrid ();
+		grid = GameObject.Find ("GamePanel").GetComponent<GameGrid>();
+		if (grid == null) {
+			Debug.Log ("Error: Game grid script not found.\n");
+			System.Environment.Exit (0);
+		}
+
 		pieceFactory = new TetrisBlockFactory();
 
 		/*Piece buffer initialization*/
@@ -44,27 +50,37 @@ public class Tetris_Engine : MonoBehaviour {
 		keyCooldown = 10;
 
 		gameIsPaused = false;
+		gameIsHalted = false;
 
+		Application.targetFrameRate = 60;
 	}
 	
 	// Update is called once per frame
 	public void Update () {
-		/*Game paused*/
-		if(Input.GetKey("p")){
-			togglePause ();
+		if (Input.GetKey (KeyCode.Escape)) {
+			Application.Quit ();
 		}
 
-		if (gameIsPaused == true) {
+		/*Halted for animation: don't do anything*/
+		if (gameIsHalted == true) {
 			return;
 		}
-
-		gravityCounter++;
 
 		/*Key check*/
 		if (keyCounter < keyCooldown) {
 			keyCounter++;
 		}
 		else {
+			/*Game paused*/
+			if(Input.GetKey("p")){
+				togglePause ();
+				keyCounter = 0;
+			}
+
+			if (gameIsPaused == true) {
+				return;
+			}
+
 			if (Input.GetKey ("a")) {
 				/*Collision check for left movement*/
 				if(!grid.collision(TetrisBlock.MoveType.LEFT, currentPiece)){
@@ -88,6 +104,12 @@ public class Tetris_Engine : MonoBehaviour {
 				keyCounter = 0;
 			}
 		}
+
+		if (gameIsPaused == true) {
+			return;
+		}
+
+		gravityCounter++;
 
 		/*Down key accelerates gravity*/
 		if(Input.GetKeyDown("s")){
@@ -132,5 +154,13 @@ public class Tetris_Engine : MonoBehaviour {
 		} else {
 			gameIsPaused = false;
 		}
+	}
+
+	public void haltGame(){
+		gameIsHalted = true;
+	}
+
+	public void unHaltGame(){
+		gameIsHalted = false;
 	}
 }

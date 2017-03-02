@@ -5,7 +5,7 @@ using UnityEngine;
 
 /*Object class responsible for tracking the contents of the game space
   and the cubes within it.*/
-public class GameGrid{
+public class GameGrid : MonoBehaviour {
 	private const int PLAY_AREA_HEIGHT = 34;
 	private const int PLAY_AREA_WIDTH = 16;
 
@@ -15,9 +15,20 @@ public class GameGrid{
 
 	private GameObject[][] gridCubes;
 
-	public GameGrid(){
+	private int animationFramesLeft;
+	private ArrayList linesToClear;
+
+	private Tetris_Engine gameEngine;
+
+	public void Start() {
 		int i;
 		int j;
+
+		gameEngine = GameObject.Find ("GameRuleEngine").GetComponent<Tetris_Engine> ();
+		if (gameEngine == null) {
+			Debug.Log ("Error: Game grid script not found.\n");
+			System.Environment.Exit (0);
+		}
 
 		/*Create the game grid for tracking collisions*/
 		blockGrid = new int[PLAY_AREA_HEIGHT][];
@@ -34,6 +45,16 @@ public class GameGrid{
 		lowestEmptySpace = new int[PLAY_AREA_WIDTH];
 		for (j = 0; j < PLAY_AREA_WIDTH; j++) {
 			lowestEmptySpace [j] = 0;
+		}
+
+		animationFramesLeft = 0;
+		linesToClear = new ArrayList();
+		linesToClear.Clear ();
+	}
+
+	public void Update() {
+		if (animationFramesLeft > 0) {
+			animateOneFrame ();
 		}
 	}
 
@@ -86,17 +107,20 @@ public class GameGrid{
 		int j;
 
 		for (i = checkLowerBound; i < checkLowerBound + 4; i++) {
-			holeFound = false;
-			for (j = 0; j < PLAY_AREA_WIDTH; j++) {
-				if (blockGrid [i] [j] == 0) {
-					/*There's a hole in the line - don't clear*/
-					holeFound = true;
+			/*Don't check outside of the play area*/
+			if (i < PLAY_AREA_HEIGHT) {
+				holeFound = false;
+				for (j = 0; j < PLAY_AREA_WIDTH; j++) {
+					if (blockGrid [i] [j] == 0) {
+						/*There's a hole in the line - don't clear*/
+						holeFound = true;
+					}
 				}
-			}
 
-			if (holeFound == true) {
-				linesCleared++;
-				clearLine (i);
+				if (holeFound == false) {
+					linesCleared++;
+					clearLine (i);
+				}
 			}
 		}
 
@@ -105,6 +129,44 @@ public class GameGrid{
 	}
 
 	public void clearLine(int row){
-		
+		animationFramesLeft = PLAY_AREA_WIDTH;
+		linesToClear.Add (row);
+	}
+
+	public void animateOneFrame(){
+		int i;
+
+		/*Do this first to make array math easier*/
+		animationFramesLeft--;
+		linesToClear.Sort ();
+
+		/*Iterate through the list of line rows to clear*/
+		foreach(int lineRow in linesToClear) {
+			GameObject.Destroy(gridCubes [lineRow] [animationFramesLeft]);
+			gridCubes [lineRow] [animationFramesLeft] = null;
+
+			Debug.Log ("Clearing line " + lineRow + "\n");
+
+			for (i = lineRow; i < PLAY_AREA_HEIGHT; i++) {
+				/*Move everything above the row down*/
+				if (i == PLAY_AREA_HEIGHT - 1) {
+					/*Special case: the top row becomes empty*/
+					blockGrid [i] [animationFramesLeft] = 0;
+					gridCubes [i] [animationFramesLeft] = null;
+				} else {
+					if (gridCubes [i + 1] [animationFramesLeft] != null) {
+						gridCubes [i + 1] [animationFramesLeft].GetComponent<Transform> ().position = gridCubes [i + 1] [animationFramesLeft].GetComponent<Transform> ().position - new Vector3 (0, 0, 1);
+					}
+
+					blockGrid [i] [animationFramesLeft] = blockGrid [i + 1] [animationFramesLeft];
+					gridCubes [i] [animationFramesLeft] = gridCubes [i + 1] [animationFramesLeft];
+				}
+			}
+		}
+			
+		if (animationFramesLeft <= 0) {
+			linesToClear.Clear ();
+			gameEngine.unHaltGame ();
+		}
 	}
 }

@@ -12,6 +12,15 @@ Another way to compile and run the game is to open this
 project in the Unity development client, and click the
 play button at the top.
 
+## Playing the game
+Use asd as left, right, and down respectively. Use q and e to rotate left and right.
+
+Standard tetris rules apply: fill rows with blocks to clear them.
+
+(Lose and win conditions haven't been implemented yet)
+
+
+
 
 ## What's Implemented so far?
 
@@ -21,16 +30,16 @@ So far, the following features have been implemented:
 * Tetris block controls, minus the w key
 * Tetris block gravity
 * The basic playing field
+* Row clearing
+* A quit button (esc)
 
 
 ## What's Next?
 
 * Implementing the w key, which should force the piece to 
 the bottom of the play field
-* Making rows actually clear when they are filled.
 * Win conditions (A scoring system)
 * The lose condition (No more space to insert a new block)
-* A way to quit the game
 * A pause menu
 * An actual title screen
 
