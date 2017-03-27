@@ -116,6 +116,9 @@ public class Tetris_Engine : MonoBehaviour {
 					currentPiece.rotateRight ();
 				}
 				keyCounter = 0;
+			} else if (Input.GetKey(KeyCode.Space)){
+				
+				keyCounter = 0;
 			}
 		}
 

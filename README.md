@@ -5,7 +5,7 @@ A recreation of Tetris in Unity!
 ## Running the program
 The game is still being worked on, using the Unity engine.
 
-One way to run the program is to double-click "Tetris_Remake_Prototype1.app".
+One way to run the program is to double-click "Tetris_Remake_Prototype.app".
 This may not always be up-to-date, though.
 
 Another way to compile and run the game is to open this

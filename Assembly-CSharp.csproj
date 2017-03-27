@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\GameGrid.cs" />
+     <Compile Include="Assets\Scripts\NextPiece_Holder.cs" />
+     <Compile Include="Assets\Scripts\Piece_Holder.cs" />
+     <Compile Include="Assets\Scripts\SavePiece_Holder.cs" />
      <Compile Include="Assets\Scripts\TetrisBackLBlock.cs" />
      <Compile Include="Assets\Scripts\TetrisBlock.cs" />
      <Compile Include="Assets\Scripts\TetrisBlockFactory.cs" />

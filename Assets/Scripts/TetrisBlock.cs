@@ -6,7 +6,7 @@ using UnityEngine;
 /*Object class representing a tetris piece.*/
 public abstract class TetrisBlock{
 	/*Predefine position vectors for use later*/
-	private static Vector3 nextPiecePosition = new Vector3 ((float)19.0, (float)11.0, (float)8.0);
+	private static Vector3 nextPiecePosition = GameObject.Find("Model_Nextpiece_Cage").GetComponent<Transform>().position + new Vector3(-1, 1, -1);
 	private static Vector3 playAreaPosition = new Vector3 ((float)-0.5, (float)11.0, (float)14.5);
 
 	private const double LEFT_WALL_X = -7.55;
