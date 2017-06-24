@@ -6,7 +6,6 @@ using UnityEngine;
 /*Object class representing a tetris piece.*/
 public abstract class TetrisBlock{
 	/*Predefine position vectors for use later*/
-	private static Vector3 nextPiecePosition = GameObject.Find("Model_Nextpiece_Cage").GetComponent<Transform>().position + new Vector3(-1, 1, -1);
 	private static Vector3 playAreaPosition = new Vector3 ((float)-0.5, (float)11.0, (float)14.5);
 
 	private const double LEFT_WALL_X = -7.55;
@@ -45,6 +44,7 @@ public abstract class TetrisBlock{
 		blockModel = new GameObject[4];
 		for (i = 0; i < 4; i++) {
 			blockModel [i] = GameObject.CreatePrimitive (PrimitiveType.Cube);
+			blockModel[i].name = "TetrisBlockCube_" + i;
 		}
 
 		rotateState = 0;
@@ -52,6 +52,7 @@ public abstract class TetrisBlock{
 		this.blockType = blockType;
 
 		bottomLeftBlockPosition = new Vector3();
+		//Debug.Log (blockModel[0].GetComponent<Transform>().position);
 	}
 
 	public int getBlockType(){
@@ -75,15 +76,6 @@ public abstract class TetrisBlock{
 		blockModel [1].transform.position = bottomLeftBlockPosition + blockConfiguration[1];
 		blockModel [2].transform.position = bottomLeftBlockPosition + blockConfiguration[2];
 		blockModel [3].transform.position = bottomLeftBlockPosition + blockConfiguration[3];
-	}
-
-	/*Teleport this piece into the "next piece" box*/
-	public void warpToNextPiecePosition(){
-		bottomLeftBlockPosition.Set(nextPiecePosition.x, nextPiecePosition.y, nextPiecePosition.z);
-		blockModel [0].transform.position = blockConfiguration [0] + nextPiecePosition;
-		blockModel [1].transform.position = blockConfiguration [1] + nextPiecePosition;
-		blockModel [2].transform.position = blockConfiguration [2] + nextPiecePosition;
-		blockModel [3].transform.position = blockConfiguration [3] + nextPiecePosition;
 	}
 
 	/*Teleport this piece into the play area, where all the pieces start*/
@@ -234,6 +226,7 @@ public abstract class TetrisBlock{
 	public void destroyModel(){
 		int i;
 
+		//Debug.Log ("Piece Destroyed: " + getBlockModelPositions()[0] + ", " + getBlockModelPositions()[1] + ", " + getBlockModelPositions()[2] + ", " + getBlockModelPositions()[3] + ", ");
 		for (i = 0; i < 4; i++) {
 			GameObject.Destroy (blockModel [i]);
 		}

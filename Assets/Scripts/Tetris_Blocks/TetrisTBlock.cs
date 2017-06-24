@@ -42,7 +42,6 @@ public class TetrisTBlock : TetrisBlock {
 		rotationConfigurations [3][3].Set (0, 0, 2);
 
 		blockConfiguration = rotationConfigurations [0];
-		warpToNextPiecePosition ();
 	}
 
 	public override Material getBlockMaterial(){

@@ -22,7 +22,6 @@ public class TetrisSquareBlock : TetrisBlock {
 		rotationConfiguration [3].Set (0, 0, 1);
 
 		blockConfiguration = rotationConfiguration;
-		warpToNextPiecePosition ();
 	}
 
 	public override Material getBlockMaterial(){

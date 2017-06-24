@@ -6,7 +6,7 @@ public class SavePiece_Holder : Piece_Holder {
 	public bool alreadySwappedOnce;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		alreadySwappedOnce = false;
 		savedBlock = null;
 		blockLocation = GetComponent<Transform> ().position + new Vector3(-1, 1, -1);
@@ -15,7 +15,7 @@ public class SavePiece_Holder : Piece_Holder {
 	TetrisBlock swapBlock(TetrisBlock block){
 		TetrisBlock previousBlock = savedBlock;
 		savedBlock = block;
-		moveBlockToHolder (block);
+		warpCurrentBlockToHolder ();
 		return previousBlock;
 	}
 }

@@ -7,7 +7,16 @@ public abstract class Piece_Holder : MonoBehaviour{
 	protected Vector3 blockLocation;
 
 	public void moveBlockToHolder(TetrisBlock block){
+		if (savedBlock != null) {
+			savedBlock.destroyModel();
+			savedBlock = null;
+		}
+
 		block.warpTo (blockLocation);
 		savedBlock = block;
+	}
+
+	public void warpCurrentBlockToHolder(){
+		savedBlock.warpTo (blockLocation);
 	}
 }

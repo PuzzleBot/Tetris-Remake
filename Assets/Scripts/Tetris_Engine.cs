@@ -7,12 +7,16 @@ using UnityEngine.UI;
   This class talks to both the GameGrid object and the two
   TetrisBlock objects to make sure the game operates properly.*/
 public class Tetris_Engine : MonoBehaviour {
+	/*Scripts already in the scene - block holders and the game grid*/
 	private GameGrid grid;
+	private NextPiece_Holder nextHolder;
+	private SavePiece_Holder saveHolder;
 
 	private TetrisBlockFactory pieceFactory;
 
 	private TetrisBlock currentPiece;
-	private TetrisBlock nextPiece;
+	private bool allowPieceSave;
+
 
 	/*Scoring variables*/
 	int score;
@@ -22,6 +26,7 @@ public class Tetris_Engine : MonoBehaviour {
 	/*Timer counters*/
 	private int gravityCounter;
 	private int gravityUpdateCount;
+	private int normalGravityUpdateCount;
 
 	private int keyCounter;
 	private int keyCooldown;
@@ -37,12 +42,18 @@ public class Tetris_Engine : MonoBehaviour {
 			Application.Quit ();
 		}
 
+		/*Get the holder scripts from the holder objects in the scene*/
+		nextHolder = GameObject.Find ("Model_Nextpiece_Cage").GetComponent<NextPiece_Holder>();
+		saveHolder = GameObject.Find ("Model_Hold_Cage").GetComponent<SavePiece_Holder>();
+
 		pieceFactory = new TetrisBlockFactory();
 
 		/*Piece buffer initialization*/
-		nextPiece = pieceFactory.createNewBlock(0);
+		nextHolder.generateNewPiece ();
 		moveNextPieceToCurrent ();
-		nextPiece = pieceFactory.createNewBlock(0);
+
+		allowPieceSave = false;
+
 
 		score = 0;
 		linesDestroyed = 0;
@@ -50,6 +61,7 @@ public class Tetris_Engine : MonoBehaviour {
 
 		gravityCounter = 0;
 		gravityUpdateCount = 30;
+		normalGravityUpdateCount = 30;
 
 		keyCounter = 0;
 		keyCooldown = 10;
@@ -72,7 +84,7 @@ public class Tetris_Engine : MonoBehaviour {
 			gravityUpdateCount = 5;
 		}
 		else if (Input.GetKeyUp ("s")) {
-			gravityUpdateCount = 30;
+			gravityUpdateCount = normalGravityUpdateCount;
 		}
 
 		/*Halted for animation: don't do anything*/
@@ -117,8 +129,9 @@ public class Tetris_Engine : MonoBehaviour {
 				}
 				keyCounter = 0;
 			} else if (Input.GetKey(KeyCode.Space)){
-				
-				keyCounter = 0;
+				if(allowPieceSave == true){
+					keyCounter = 0;	
+				}
 			}
 		}
 
@@ -140,22 +153,20 @@ public class Tetris_Engine : MonoBehaviour {
 				GameObject.Find ("Canvas/Model_LineText/LineCounter").GetComponent<Text> ().text = linesDestroyed.ToString();
 
 				moveNextPieceToCurrent ();
-				generateNextPiece ();
 			}
 			gravityCounter = 0;
 		}
 	}
 
-	/*Pick a new piece at random*/
-	public void generateNextPiece(){
-		nextPiece.destroyModel();
-		nextPiece = pieceFactory.createNewBlock (0);
+	/*Moves the next piece into the play area, then generates a new piece as the next*/
+	public void moveNextPieceToCurrent(){
+		currentPiece = pieceFactory.createNewBlock(nextHolder.savedBlock.getBlockType());
+		currentPiece.warpToPlayAreaPosition();
+		nextHolder.generateNewPiece ();
 	}
 
-	public void moveNextPieceToCurrent(){
-		currentPiece = pieceFactory.createNewBlock(nextPiece.getBlockType());
-		currentPiece.warpToPlayAreaPosition();
-		nextPiece.destroyModel ();
+	public void swapCurrentWithSavedPiece(){
+		
 	}
 
 	public void togglePause(){

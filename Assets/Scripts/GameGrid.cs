@@ -20,7 +20,7 @@ public class GameGrid : MonoBehaviour {
 
 	private Tetris_Engine gameEngine;
 
-	public void Start() {
+	public void Awake() {
 		int i;
 		int j;
 
@@ -90,6 +90,7 @@ public class GameGrid : MonoBehaviour {
 					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x] = GameObject.CreatePrimitive (PrimitiveType.Cube);
 					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].GetComponent<Transform> ().position = cubeModelPositions[i];
 					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].GetComponent<Renderer> ().material = fillinMaterial;
+					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].name = "Rooted_Cube";
 				}
 
 				block.destroyModel ();
