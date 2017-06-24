@@ -15,7 +15,6 @@ public class Tetris_Engine : MonoBehaviour {
 	private TetrisBlockFactory pieceFactory;
 
 	private TetrisBlock currentPiece;
-	private bool allowPieceSave;
 
 
 	/*Scoring variables*/
@@ -51,9 +50,6 @@ public class Tetris_Engine : MonoBehaviour {
 		/*Piece buffer initialization*/
 		nextHolder.generateNewPiece ();
 		moveNextPieceToCurrent ();
-
-		allowPieceSave = false;
-
 
 		score = 0;
 		linesDestroyed = 0;
@@ -129,7 +125,8 @@ public class Tetris_Engine : MonoBehaviour {
 				}
 				keyCounter = 0;
 			} else if (Input.GetKey(KeyCode.Space)){
-				if(allowPieceSave == true){
+				if(saveHolder.alreadySwappedOnce == false){
+					swapCurrentWithSavedPiece ();
 					keyCounter = 0;	
 				}
 			}
@@ -153,6 +150,7 @@ public class Tetris_Engine : MonoBehaviour {
 				GameObject.Find ("Canvas/Model_LineText/LineCounter").GetComponent<Text> ().text = linesDestroyed.ToString();
 
 				moveNextPieceToCurrent ();
+				saveHolder.alreadySwappedOnce = false;
 			}
 			gravityCounter = 0;
 		}
@@ -160,13 +158,24 @@ public class Tetris_Engine : MonoBehaviour {
 
 	/*Moves the next piece into the play area, then generates a new piece as the next*/
 	public void moveNextPieceToCurrent(){
-		currentPiece = pieceFactory.createNewBlock(nextHolder.savedBlock.getBlockType());
+		currentPiece = pieceFactory.createNewBlock(nextHolder.getHeldBlock().getBlockType());
 		currentPiece.warpToPlayAreaPosition();
 		nextHolder.generateNewPiece ();
 	}
 
 	public void swapCurrentWithSavedPiece(){
-		
+		currentPiece = saveHolder.swapBlock (currentPiece);
+
+		if (currentPiece == null) {
+			/*No piece previously saved - Put the next piece into play*/
+			moveNextPieceToCurrent ();
+		} else {
+			/*Piece previously saved - put it into play*/
+			currentPiece.warpToPlayAreaPosition ();
+		}
+
+		/*Reset the gravity timer so the player has time to react*/
+		gravityCounter = 0;
 	}
 
 	public void togglePause(){

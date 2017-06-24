@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Piece_Holder : MonoBehaviour{
-	public TetrisBlock savedBlock;
+	protected TetrisBlock savedBlock;
 	protected Vector3 blockLocation;
 
-	public void moveBlockToHolder(TetrisBlock block){
-		if (savedBlock != null) {
-			savedBlock.destroyModel();
-			savedBlock = null;
-		}
-
+	public void putBlockInHolder(TetrisBlock block){
 		block.warpTo (blockLocation);
 		savedBlock = block;
+	}
+
+	public TetrisBlock getHeldBlock(){
+		return savedBlock;
 	}
 
 	public void warpCurrentBlockToHolder(){

@@ -12,10 +12,11 @@ public class SavePiece_Holder : Piece_Holder {
 		blockLocation = GetComponent<Transform> ().position + new Vector3(-1, 1, -1);
 	}
 
-	TetrisBlock swapBlock(TetrisBlock block){
+	/*Puts the current piece on hold, returns what was previously on hold*/
+	public TetrisBlock swapBlock(TetrisBlock block){
 		TetrisBlock previousBlock = savedBlock;
-		savedBlock = block;
-		warpCurrentBlockToHolder ();
+		putBlockInHolder (block);
+		alreadySwappedOnce = true;
 		return previousBlock;
 	}
 }
