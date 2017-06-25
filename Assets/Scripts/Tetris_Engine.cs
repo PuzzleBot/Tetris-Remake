@@ -105,24 +105,26 @@ public class Tetris_Engine : MonoBehaviour {
 
 			if (Input.GetKey ("a")) {
 				/*Collision check for left movement*/
-				if(!grid.collision(TetrisBlock.MoveType.LEFT, currentPiece)){
+				if (!grid.collision (TetrisBlock.MoveType.LEFT, currentPiece)) {
 					currentPiece.shiftLeft ();
 				}
 				keyCounter = 0;
 			} else if (Input.GetKey ("d")) {
-				if(!grid.collision(TetrisBlock.MoveType.RIGHT, currentPiece)){
+				if (!grid.collision (TetrisBlock.MoveType.RIGHT, currentPiece)) {
 					currentPiece.shiftRight ();
 				}
 				keyCounter = 0;
-			} else if (Input.GetKey("q")){
-				if(!grid.collision(TetrisBlock.MoveType.ROTATE_LEFT, currentPiece)){
+			} else if (Input.GetKey ("q")) {
+				if (!grid.collision (TetrisBlock.MoveType.ROTATE_LEFT, currentPiece)) {
 					currentPiece.rotateRight ();
 				}
 				keyCounter = 0;
-			} else if (Input.GetKey("e")){
-				if(!grid.collision(TetrisBlock.MoveType.ROTATE_RIGHT, currentPiece)){
+			} else if (Input.GetKey ("e")) {
+				if (!grid.collision (TetrisBlock.MoveType.ROTATE_RIGHT, currentPiece)) {
 					currentPiece.rotateRight ();
 				}
+				keyCounter = 0;
+			} else if (Input.GetKey ("w")) {
 				keyCounter = 0;
 			} else if (Input.GetKey(KeyCode.Space)){
 				if(saveHolder.alreadySwappedOnce == false){
@@ -181,8 +183,10 @@ public class Tetris_Engine : MonoBehaviour {
 	public void togglePause(){
 		if (gameIsPaused == false) {
 			gameIsPaused = true;
+			GameObject.Find ("PauseText").GetComponent<Text>().enabled = true;
 		} else {
 			gameIsPaused = false;
+			GameObject.Find ("PauseText").GetComponent<Text>().enabled = false;
 		}
 	}
 

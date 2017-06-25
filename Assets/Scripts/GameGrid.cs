@@ -91,6 +91,11 @@ public class GameGrid : MonoBehaviour {
 					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].GetComponent<Transform> ().position = cubeModelPositions[i];
 					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].GetComponent<Renderer> ().material = fillinMaterial;
 					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].name = "Rooted_Cube";
+
+					/*Update the highest block of each column
+					if((int)rootedGridPositions [i].y){
+						
+					}*/
 				}
 
 				block.destroyModel ();
@@ -169,5 +174,26 @@ public class GameGrid : MonoBehaviour {
 			linesToClear.Clear ();
 			gameEngine.unHaltGame ();
 		}
+	}
+
+	public void forcePieceToBottom(TetrisBlock block){
+		int[] blockDistances = new int[4];
+		Vector3[] blockModelPositions;
+		int lowestDistance = 300;
+		int lowestBlockIndex = 0;
+		int i;
+
+		/*Calculate distances here, not counting the solid blocks*/
+
+		/*Quicksort, there are only 4 numbers to sort anyway*/
+		for (i = 0; i < 4; i++) {
+			if(lowestDistance > blockDistances[i]){
+				lowestDistance = blockDistances [i];
+				lowestBlockIndex = i;
+			}
+		}
+			
+		/*Move the piece down by that distance*/
+		block.warpTo (block.getBlockModelPositions()[lowestBlockIndex] - new Vector3(0, 0, -lowestDistance));
 	}
 }
