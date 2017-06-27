@@ -149,7 +149,7 @@ public class Tetris_Engine : MonoBehaviour {
 				/*Downward collision - the piece has been rooted in place.
 				  Check for filled lines to clear.*/
 				linesDestroyed = linesDestroyed + grid.checkForLines (currentPiece);
-				GameObject.Find ("Canvas/Model_LineText/LineCounter").GetComponent<Text> ().text = linesDestroyed.ToString();
+				GameObject.Find ("OverlayCanvas/Model_LineText/LineCounter").GetComponent<Text> ().text = linesDestroyed.ToString();
 
 				moveNextPieceToCurrent ();
 				saveHolder.alreadySwappedOnce = false;

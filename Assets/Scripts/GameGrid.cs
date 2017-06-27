@@ -11,6 +11,8 @@ public class GameGrid : MonoBehaviour {
 
 	/*[z][x]*/
 	private int[][] blockGrid;
+
+	/*Last empty space before the first non-empty space*/
 	private int[] lowestEmptySpace;
 
 	private GameObject[][] gridCubes;
