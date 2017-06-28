@@ -14,6 +14,7 @@ play button at the top.
 
 ## Playing the game
 Use asd as left, right, and down respectively. Use q and e to rotate left and right.
+Use p to pause, and press escape to quit.
 
 Standard tetris rules apply: fill rows with blocks to clear them.
 
@@ -26,24 +27,28 @@ Standard tetris rules apply: fill rows with blocks to clear them.
 
 So far, the following features have been implemented:
 
+* A Title Screen
 * Tetris block generation
 * Tetris block controls, minus the w key
 * Tetris block gravity
 * The basic playing field
 * Row clearing
 * Cleared row tracking
+* Piece Holding (space)
 * A quit button (esc)
+* Pause (p)
 
 
 ## What's Next?
 
 * Implementing the w key, which should force the piece to 
 the bottom of the play field
-* Piece holding using the spacebar
 * Win conditions (A scoring system)
 * The lose condition (No more space to insert a new block)
 * A pause menu
-* An actual title screen
+* Game instructions
+* Options (Keybindings, etc)
+* Audio
 
 
 

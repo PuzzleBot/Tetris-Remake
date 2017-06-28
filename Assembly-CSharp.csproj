@@ -46,10 +46,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\GameGrid.cs" />
-     <Compile Include="Assets\Scripts\NextPiece_Holder.cs" />
-     <Compile Include="Assets\Scripts\Piece_Holder.cs" />
-     <Compile Include="Assets\Scripts\SavePiece_Holder.cs" />
+     <Compile Include="Assets\Scripts\Game\GameGrid.cs" />
+     <Compile Include="Assets\Scripts\Game\NextPiece_Holder.cs" />
+     <Compile Include="Assets\Scripts\Game\Piece_Holder.cs" />
+     <Compile Include="Assets\Scripts\Game\SavePiece_Holder.cs" />
+     <Compile Include="Assets\Scripts\Game\Tetris_Engine.cs" />
      <Compile Include="Assets\Scripts\Tetris_Blocks\TetrisBackLBlock.cs" />
      <Compile Include="Assets\Scripts\Tetris_Blocks\TetrisBlock.cs" />
      <Compile Include="Assets\Scripts\Tetris_Blocks\TetrisBlockFactory.cs" />
@@ -59,7 +60,8 @@
      <Compile Include="Assets\Scripts\Tetris_Blocks\TetrisSquareBlock.cs" />
      <Compile Include="Assets\Scripts\Tetris_Blocks\TetrisTBlock.cs" />
      <Compile Include="Assets\Scripts\Tetris_Blocks\TetrisZBlock.cs" />
-     <Compile Include="Assets\Scripts\Tetris_Engine.cs" />
+     <Compile Include="Assets\Scripts\UI\QuitButton.cs" />
+     <Compile Include="Assets\Scripts\UI\StartButton.cs" />
      <None Include="Assets\Resources\8_bit_operator\SIL Open Font License.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
