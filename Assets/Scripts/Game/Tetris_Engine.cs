@@ -18,9 +18,10 @@ public class Tetris_Engine : MonoBehaviour {
 
 
 	/*Scoring variables*/
-	int score;
-	int linesDestroyed;
-	int level;
+	public int score;
+	public int linesDestroyed;
+	public int level;
+	public bool defeat;
 
 	/*Timer counters*/
 	private int gravityCounter;
@@ -54,6 +55,7 @@ public class Tetris_Engine : MonoBehaviour {
 		score = 0;
 		linesDestroyed = 0;
 		level = 1;
+		defeat = false;
 
 		gravityCounter = 0;
 		gravityUpdateCount = 30;
@@ -125,6 +127,11 @@ public class Tetris_Engine : MonoBehaviour {
 				}
 				keyCounter = 0;
 			} else if (Input.GetKey ("w")) {
+				/*Send the piece to the bottom*/
+				grid.forcePieceToBottom (currentPiece);
+
+				/*Do a collision check immediately*/
+				gravityCounter = gravityUpdateCount + 1;
 				keyCounter = 0;
 			} else if (Input.GetKey(KeyCode.Space)){
 				if(saveHolder.alreadySwappedOnce == false){
@@ -160,8 +167,24 @@ public class Tetris_Engine : MonoBehaviour {
 
 	/*Moves the next piece into the play area, then generates a new piece as the next*/
 	public void moveNextPieceToCurrent(){
+		Vector2[] currentPieceGridPositions;
+
 		currentPiece = pieceFactory.createNewBlock(nextHolder.getHeldBlock().getBlockType());
 		currentPiece.warpToPlayAreaPosition();
+		currentPieceGridPositions = currentPiece.getCurrentOccupiedGrid ();
+
+		/*Check for lose condition: no space for the new piece*/
+		int i;
+		for (i = 0; i < 4; i++) {
+			if(grid.isOccupied(currentPieceGridPositions[i])){
+				defeat = true;
+			}
+		}
+
+		if (defeat == true) {
+			/*If the player has lost*/
+		}
+
 		nextHolder.generateNewPiece ();
 	}
 

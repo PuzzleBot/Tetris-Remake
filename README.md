@@ -37,12 +37,11 @@ So far, the following features have been implemented:
 * Piece Holding (space)
 * A quit button (esc)
 * Pause (p)
+* Forcing blocks to the bottom instantly (w)
 
 
 ## What's Next?
 
-* Implementing the w key, which should force the piece to 
-the bottom of the play field
 * Win conditions (A scoring system)
 * The lose condition (No more space to insert a new block)
 * A pause menu

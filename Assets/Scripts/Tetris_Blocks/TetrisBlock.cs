@@ -146,6 +146,10 @@ public abstract class TetrisBlock{
 		return(positions);
 	}
 
+	public Vector3 getBottomLeftBlockPosition(){
+		return bottomLeftBlockPosition;
+	}
+
 	public int getLowestOccupiedGridY(){
 		int i;
 		double lowestY = 100;

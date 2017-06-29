@@ -17,8 +17,10 @@ public class GameGrid : MonoBehaviour {
 
 	private GameObject[][] gridCubes;
 
-	private int animationFramesLeft;
+	private int lineAnimationFramesLeft;
 	private ArrayList linesToClear;
+	private bool animateDefeat;
+	private Vector2 currentGreyBlock;
 
 	private Tetris_Engine gameEngine;
 
@@ -49,14 +51,19 @@ public class GameGrid : MonoBehaviour {
 			lowestEmptySpace [j] = 0;
 		}
 
-		animationFramesLeft = 0;
+		lineAnimationFramesLeft = 0;
 		linesToClear = new ArrayList();
 		linesToClear.Clear ();
+		animateDefeat = false;
+		currentGreyBlock = new Vector2 (0, 0);
 	}
 
 	public void Update() {
-		if (animationFramesLeft > 0) {
-			animateOneFrame ();
+		if (lineAnimationFramesLeft > 0) {
+			animateOneLineFrame ();
+		}
+		if(animateDefeat == true){
+			
 		}
 	}
 
@@ -93,11 +100,6 @@ public class GameGrid : MonoBehaviour {
 					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].GetComponent<Transform> ().position = cubeModelPositions[i];
 					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].GetComponent<Renderer> ().material = fillinMaterial;
 					gridCubes [(int)rootedGridPositions [i].y] [(int)rootedGridPositions [i].x].name = "Rooted_Cube";
-
-					/*Update the highest block of each column
-					if((int)rootedGridPositions [i].y){
-						
-					}*/
 				}
 
 				block.destroyModel ();
@@ -137,42 +139,42 @@ public class GameGrid : MonoBehaviour {
 	}
 
 	public void clearLine(int row){
-		animationFramesLeft = PLAY_AREA_WIDTH;
+		lineAnimationFramesLeft = PLAY_AREA_WIDTH;
 		linesToClear.Add (row);
 		gameEngine.haltGame ();
 	}
 
-	public void animateOneFrame(){
+	public void animateOneLineFrame(){
 		int i;
 
 		/*Do this first to make array math easier*/
-		animationFramesLeft--;
+		lineAnimationFramesLeft--;
 		linesToClear.Sort ();
 		linesToClear.Reverse ();
 
 		/*Iterate through the list of line rows to clear*/
 		foreach(int lineRow in linesToClear) {
-			GameObject.Destroy(gridCubes [lineRow] [animationFramesLeft]);
-			gridCubes [lineRow] [animationFramesLeft] = null;
+			GameObject.Destroy(gridCubes [lineRow] [lineAnimationFramesLeft]);
+			gridCubes [lineRow] [lineAnimationFramesLeft] = null;
 
 			for (i = lineRow; i < PLAY_AREA_HEIGHT; i++) {
 				/*Move everything above the row down*/
 				if (i == PLAY_AREA_HEIGHT - 1) {
 					/*Special case: the top row becomes empty*/
-					blockGrid [i] [animationFramesLeft] = 0;
-					gridCubes [i] [animationFramesLeft] = null;
+					blockGrid [i] [lineAnimationFramesLeft] = 0;
+					gridCubes [i] [lineAnimationFramesLeft] = null;
 				} else {
-					if (gridCubes [i + 1] [animationFramesLeft] != null) {
-						gridCubes [i + 1] [animationFramesLeft].GetComponent<Transform> ().position = gridCubes [i + 1] [animationFramesLeft].GetComponent<Transform> ().position - new Vector3 (0, 0, 1);
+					if (gridCubes [i + 1] [lineAnimationFramesLeft] != null) {
+						gridCubes [i + 1] [lineAnimationFramesLeft].GetComponent<Transform> ().position = gridCubes [i + 1] [lineAnimationFramesLeft].GetComponent<Transform> ().position - new Vector3 (0, 0, 1);
 					}
 
-					blockGrid [i] [animationFramesLeft] = blockGrid [i + 1] [animationFramesLeft];
-					gridCubes [i] [animationFramesLeft] = gridCubes [i + 1] [animationFramesLeft];
+					blockGrid [i] [lineAnimationFramesLeft] = blockGrid [i + 1] [lineAnimationFramesLeft];
+					gridCubes [i] [lineAnimationFramesLeft] = gridCubes [i + 1] [lineAnimationFramesLeft];
 				}
 			}
 		}
 			
-		if (animationFramesLeft <= 0) {
+		if (lineAnimationFramesLeft <= 0) {
 			linesToClear.Clear ();
 			gameEngine.unHaltGame ();
 		}
@@ -180,22 +182,47 @@ public class GameGrid : MonoBehaviour {
 
 	public void forcePieceToBottom(TetrisBlock block){
 		int[] blockDistances = new int[4];
-		Vector3[] blockModelPositions;
+		Vector2[] blockGridPositions = block.getCurrentOccupiedGrid();
 		int lowestDistance = 300;
 		int lowestBlockIndex = 0;
 		int i;
+		int currentHeight;
 
-		/*Calculate distances here, not counting the solid blocks*/
 
-		/*Quicksort, there are only 4 numbers to sort anyway*/
+		/*Calculate distance from each block's current height to the next solid block below it, 
+		 *not counting the solid blocks, and determine the lowest distance*/
 		for (i = 0; i < 4; i++) {
-			if(lowestDistance > blockDistances[i]){
+			currentHeight = (int)blockGridPositions [i].y - 1;
+			while((currentHeight >= 0) && (blockGrid[currentHeight][(int)blockGridPositions[i].x] == 0)){
+				currentHeight--;
+			}
+			blockDistances [i] = (int)blockGridPositions [i].y - currentHeight - 1;
+
+			if(lowestDistance >= blockDistances[i]){
 				lowestDistance = blockDistances [i];
 				lowestBlockIndex = i;
 			}
 		}
-			
+
+		Debug.Log (block.getBlockModelPositions()[lowestBlockIndex] + new Vector3(0, 0, -lowestDistance));
+
 		/*Move the piece down by that distance*/
-		block.warpTo (block.getBlockModelPositions()[lowestBlockIndex] - new Vector3(0, 0, -lowestDistance));
+		block.warpTo (block.getBottomLeftBlockPosition() + new Vector3(0, 0, -lowestDistance));
+	}
+
+	public bool isOccupied(Vector2 gridPosition){
+		if (blockGrid [(int)gridPosition.y] [(int)gridPosition.x] == 0) {
+			return(false);
+		} else {
+			return(true);
+		}
+	}
+
+	public void signalDefeat(){
+		animateDefeat = true;
+	}
+
+	public void restartGame(){
+		animateDefeat = false;
 	}
 }
