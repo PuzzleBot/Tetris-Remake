@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 /*Object class responsible for tracking the contents of the game space
   and the cubes within it.*/
 public class GameGrid : MonoBehaviour {
 	private const int PLAY_AREA_HEIGHT = 34;
-	private const int PLAY_AREA_WIDTH = 16;
+	private const int PLAY_AREA_WIDTH = 10;
 
-	/*[z][x]*/
+	private static Material defeatMaterial;
+
+	/*[z][x]
+	 *Values in this array:
+	 *0 means empty space
+	 *1 means space occupied by some landed tetris piece
+	 *2 means space occupied by a grey cube generated on defeat*/
 	private int[][] blockGrid;
 
 	/*Last empty space before the first non-empty space*/
@@ -22,11 +29,16 @@ public class GameGrid : MonoBehaviour {
 	private bool animateDefeat;
 	private Vector2 currentGreyBlock;
 
+	private int animationTimer;
+	private int animationDelay;
+
 	private Tetris_Engine gameEngine;
 
 	public void Awake() {
 		int i;
 		int j;
+
+		defeatMaterial = Resources.Load("Defeat_Mat", typeof(Material)) as Material;
 
 		gameEngine = GameObject.Find ("GameRuleEngine").GetComponent<Tetris_Engine> ();
 		if (gameEngine == null) {
@@ -56,14 +68,23 @@ public class GameGrid : MonoBehaviour {
 		linesToClear.Clear ();
 		animateDefeat = false;
 		currentGreyBlock = new Vector2 (0, 0);
+
+		animationTimer = 0;
+		animationDelay = 3;
 	}
 
 	public void Update() {
-		if (lineAnimationFramesLeft > 0) {
-			animateOneLineFrame ();
-		}
-		if(animateDefeat == true){
-			
+		if (animationTimer >= animationDelay) {
+			if (lineAnimationFramesLeft > 0) {
+				animateOneLineFrame ();
+				animationTimer = 0;
+			}
+			if (animateDefeat == true) {
+				animateOneDefeatFrame ();
+				animationTimer = 0;
+			}
+		} else {
+			animationTimer++;
 		}
 	}
 
@@ -180,6 +201,27 @@ public class GameGrid : MonoBehaviour {
 		}
 	}
 
+
+	public void animateOneDefeatFrame(){
+		/*Find the next block to turn grey*/
+		while(((int)System.Math.Round(currentGreyBlock.y) < PLAY_AREA_HEIGHT) && (blockGrid[(int)System.Math.Round(currentGreyBlock.y)][(int)System.Math.Round(currentGreyBlock.x)] != 1)){
+			currentGreyBlock.x++;
+			if ((int)System.Math.Round (currentGreyBlock.x) >= PLAY_AREA_WIDTH) {
+				currentGreyBlock.x = 0;
+				currentGreyBlock.y++;
+			}
+		}
+
+		/*If there are no blocks left to grey out, stop the animation and show the defeat screen*/
+		if ((int)System.Math.Round (currentGreyBlock.y) >= PLAY_AREA_HEIGHT) {
+			animateDefeat = false;
+			GameObject.Find ("OverlayCanvas/DefeatText").GetComponent<Text> ().enabled = true;
+		} else {
+			gridCubes [(int)System.Math.Round (currentGreyBlock.y)] [(int)System.Math.Round (currentGreyBlock.x)].GetComponent<Renderer> ().material = defeatMaterial;
+			blockGrid[(int)System.Math.Round(currentGreyBlock.y)][(int)System.Math.Round(currentGreyBlock.x)] = 2;
+		}
+	}
+
 	public void forcePieceToBottom(TetrisBlock block){
 		int[] blockDistances = new int[4];
 		Vector2[] blockGridPositions = block.getCurrentOccupiedGrid();
@@ -211,7 +253,7 @@ public class GameGrid : MonoBehaviour {
 	}
 
 	public bool isOccupied(Vector2 gridPosition){
-		if (blockGrid [(int)gridPosition.y] [(int)gridPosition.x] == 0) {
+		if (blockGrid [(int)System.Math.Round(gridPosition.y)] [(int)System.Math.Round(gridPosition.x)] == 0) {
 			return(false);
 		} else {
 			return(true);
@@ -220,6 +262,8 @@ public class GameGrid : MonoBehaviour {
 
 	public void signalDefeat(){
 		animateDefeat = true;
+		currentGreyBlock.x = 0;
+		currentGreyBlock.y = 0;
 	}
 
 	public void restartGame(){

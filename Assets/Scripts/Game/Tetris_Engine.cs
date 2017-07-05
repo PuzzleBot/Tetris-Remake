@@ -182,10 +182,12 @@ public class Tetris_Engine : MonoBehaviour {
 		}
 
 		if (defeat == true) {
-			/*If the player has lost*/
+			/*If the player has lost, tell the play area to start the defeat animation*/
+			haltGame ();
+			grid.signalDefeat ();
+		} else {
+			nextHolder.generateNewPiece ();
 		}
-
-		nextHolder.generateNewPiece ();
 	}
 
 	public void swapCurrentWithSavedPiece(){
@@ -204,12 +206,17 @@ public class Tetris_Engine : MonoBehaviour {
 	}
 
 	public void togglePause(){
+		/*Don't allow pausing if the defeat screen is up*/
+		if (defeat == true) {
+			return;
+		}
+
 		if (gameIsPaused == false) {
 			gameIsPaused = true;
-			GameObject.Find ("PauseText").GetComponent<Text>().enabled = true;
+			GameObject.Find ("OverlayCanvas/PauseText").GetComponent<Text>().enabled = true;
 		} else {
 			gameIsPaused = false;
-			GameObject.Find ("PauseText").GetComponent<Text>().enabled = false;
+			GameObject.Find ("OverlayCanvas/PauseText").GetComponent<Text>().enabled = false;
 		}
 	}
 

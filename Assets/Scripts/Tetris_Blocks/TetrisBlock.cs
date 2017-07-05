@@ -8,7 +8,7 @@ public abstract class TetrisBlock{
 	/*Predefine position vectors for use later*/
 	private static Vector3 playAreaPosition = new Vector3 ((float)-0.5, (float)11.0, (float)14.5);
 
-	private const double LEFT_WALL_X = -7.55;
+	private const double LEFT_WALL_X = -4.55;
 	private const double BOTTOM_Z = -14.55;
 
 	/*Predefine movement vectors*/
