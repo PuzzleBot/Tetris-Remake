@@ -38,16 +38,17 @@ So far, the following features have been implemented:
 * A quit button (esc)
 * Pause (p)
 * Forcing blocks to the bottom instantly (w)
+* A lose condition (no space for a new block)
 
 
 ## What's Next?
 
 * Win conditions (A scoring system)
-* The lose condition (No more space to insert a new block)
 * A pause menu
 * Game instructions
 * Options (Keybindings, etc)
 * Audio
+* Asset loading optimizations
 
 
 

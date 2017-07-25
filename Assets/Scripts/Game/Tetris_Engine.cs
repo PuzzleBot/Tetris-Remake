@@ -34,6 +34,10 @@ public class Tetris_Engine : MonoBehaviour {
 	private bool gameIsPaused;
 	private bool gameIsHalted;
 
+	/*UI text references stored for later*/
+	private GameObject pauseMenu;
+	private GameObject lineCountText;
+
 	// Use this for initialization
 	public void Start () {
 		grid = GameObject.Find ("GamePanel").GetComponent<GameGrid>();
@@ -66,6 +70,10 @@ public class Tetris_Engine : MonoBehaviour {
 
 		gameIsPaused = false;
 		gameIsHalted = false;
+
+		pauseMenu = GameObject.Find("OverlayCanvas/Model_PauseMenu");
+		pauseMenu.SetActive (false);
+		lineCountText = GameObject.Find ("OverlayCanvas/Model_LineText/LineCounter");
 
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = 60;
@@ -156,7 +164,7 @@ public class Tetris_Engine : MonoBehaviour {
 				/*Downward collision - the piece has been rooted in place.
 				  Check for filled lines to clear.*/
 				linesDestroyed = linesDestroyed + grid.checkForLines (currentPiece);
-				GameObject.Find ("OverlayCanvas/Model_LineText/LineCounter").GetComponent<Text> ().text = linesDestroyed.ToString();
+				lineCountText.GetComponent<Text> ().text = linesDestroyed.ToString();
 
 				moveNextPieceToCurrent ();
 				saveHolder.alreadySwappedOnce = false;
@@ -213,10 +221,10 @@ public class Tetris_Engine : MonoBehaviour {
 
 		if (gameIsPaused == false) {
 			gameIsPaused = true;
-			GameObject.Find ("OverlayCanvas/PauseText").GetComponent<Text>().enabled = true;
+			pauseMenu.SetActive(true);
 		} else {
 			gameIsPaused = false;
-			GameObject.Find ("OverlayCanvas/PauseText").GetComponent<Text>().enabled = false;
+			pauseMenu.SetActive(false);
 		}
 	}
 

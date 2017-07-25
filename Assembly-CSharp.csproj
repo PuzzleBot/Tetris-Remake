@@ -60,8 +60,11 @@
      <Compile Include="Assets\Scripts\Tetris_Blocks\TetrisSquareBlock.cs" />
      <Compile Include="Assets\Scripts\Tetris_Blocks\TetrisTBlock.cs" />
      <Compile Include="Assets\Scripts\Tetris_Blocks\TetrisZBlock.cs" />
+     <Compile Include="Assets\Scripts\UI\HighScoreButton.cs" />
+     <Compile Include="Assets\Scripts\UI\PauseButton.cs" />
      <Compile Include="Assets\Scripts\UI\QuitButton.cs" />
      <Compile Include="Assets\Scripts\UI\StartButton.cs" />
+     <Compile Include="Assets\Scripts\UI\TitleButton.cs" />
      <None Include="Assets\Resources\8_bit_operator\SIL Open Font License.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
