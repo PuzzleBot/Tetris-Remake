@@ -34,10 +34,6 @@ public class GameGrid : MonoBehaviour {
 
 	private Tetris_Engine gameEngine;
 
-	/*UI canvases to be enabled/disabled later*/
-	private GameObject mainOverlay;
-	private GameObject defeatOverlay;
-
 	public void Awake() {
 		int i;
 		int j;
@@ -75,10 +71,6 @@ public class GameGrid : MonoBehaviour {
 
 		animationTimer = 0;
 		animationDelay = 2;
-
-		mainOverlay = GameObject.Find("OverlayCanvas");
-		defeatOverlay = GameObject.Find("DefeatOverlayCanvas");
-		defeatOverlay.SetActive (false);
 	}
 
 	public void Update() {
@@ -222,9 +214,7 @@ public class GameGrid : MonoBehaviour {
 
 		/*If there are no blocks left to grey out, stop the animation and show the defeat screen*/
 		if ((int)System.Math.Round (currentGreyBlock.y) >= PLAY_AREA_HEIGHT) {
-			animateDefeat = false;
-			defeatOverlay.SetActive(true);
-			mainOverlay.SetActive(false);
+			endOfDefeatAnimation ();
 		} else {
 			gridCubes [(int)System.Math.Round (currentGreyBlock.y)] [(int)System.Math.Round (currentGreyBlock.x)].GetComponent<Renderer> ().material = defeatMaterial;
 			blockGrid[(int)System.Math.Round(currentGreyBlock.y)][(int)System.Math.Round(currentGreyBlock.x)] = 2;
@@ -275,7 +265,8 @@ public class GameGrid : MonoBehaviour {
 		currentGreyBlock.y = 0;
 	}
 
-	public void restartGame(){
+	public void endOfDefeatAnimation(){
 		animateDefeat = false;
+		gameEngine.activateDefeatOverlay ();
 	}
 }

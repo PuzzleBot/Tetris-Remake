@@ -18,7 +18,7 @@ public class Tetris_Engine : MonoBehaviour {
 
 
 	/*Scoring variables*/
-	public int score;
+	public GameScore scoreRecords;
 	public int linesDestroyed;
 	public int level;
 	public bool defeat;
@@ -37,6 +37,11 @@ public class Tetris_Engine : MonoBehaviour {
 	/*UI text references stored for later*/
 	private GameObject pauseMenu;
 	private GameObject lineCountText;
+	private GameObject levelText;
+
+	private GameObject mainOverlay;
+	private GameObject defeatOverlay;
+	private GameObject finalScoreText;
 
 	// Use this for initialization
 	public void Start () {
@@ -56,7 +61,7 @@ public class Tetris_Engine : MonoBehaviour {
 		nextHolder.generateNewPiece ();
 		moveNextPieceToCurrent ();
 
-		score = 0;
+		scoreRecords = new GameScore();
 		linesDestroyed = 0;
 		level = 1;
 		defeat = false;
@@ -72,8 +77,15 @@ public class Tetris_Engine : MonoBehaviour {
 		gameIsHalted = false;
 
 		pauseMenu = GameObject.Find("OverlayCanvas/Model_PauseMenu");
+		lineCountText = GameObject.Find ("OverlayCanvas/Model_ScoreText/ScoreCounter");
+		levelText = GameObject.Find ("OverlayCanvas/LevelText");
+
+		mainOverlay = GameObject.Find("OverlayCanvas");
+		defeatOverlay = GameObject.Find("DefeatOverlayCanvas");
+		finalScoreText = GameObject.Find ("DefeatOverlayCanvas/Model_ScoreMenu/FinalScoreText");
+
+		defeatOverlay.SetActive (false);
 		pauseMenu.SetActive (false);
-		lineCountText = GameObject.Find ("OverlayCanvas/Model_LineText/LineCounter");
 
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = 60;
@@ -163,8 +175,10 @@ public class Tetris_Engine : MonoBehaviour {
 			} else {
 				/*Downward collision - the piece has been rooted in place.
 				  Check for filled lines to clear.*/
-				linesDestroyed = linesDestroyed + grid.checkForLines (currentPiece);
-				lineCountText.GetComponent<Text> ().text = linesDestroyed.ToString();
+				linesDestroyed = grid.checkForLines (currentPiece);
+				scoreRecords.addLineClearScore (linesDestroyed);
+				lineCountText.GetComponent<Text> ().text = scoreRecords.getScoreValue().ToString();
+				levelText.GetComponent<Text> ().text = "Level " + scoreRecords.getLevel().ToString();
 
 				moveNextPieceToCurrent ();
 				saveHolder.alreadySwappedOnce = false;
@@ -234,5 +248,12 @@ public class Tetris_Engine : MonoBehaviour {
 
 	public void unHaltGame(){
 		gameIsHalted = false;
+	}
+
+	public void activateDefeatOverlay(){
+		defeatOverlay.SetActive(true);
+		mainOverlay.SetActive(false);
+
+		finalScoreText.GetComponent<Text> ().text = "Final Score: " + scoreRecords.getScoreValue().ToString ();
 	}
 }

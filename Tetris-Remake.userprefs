@@ -1,13 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/GameGrid.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/HighScoreManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Game/Tetris_Engine.cs" Line="186" Column="16" />
       <File FileName="Assets/Scripts/UI/StartButton.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Tetris_Blocks/TetrisBlock.cs" Line="11" Column="39" />
+      <File FileName="Assets/Scripts/Game/GameGrid.cs" Line="222" Column="3" />
+      <File FileName="Assets/Scripts/Game/Tetris_Engine.cs" Line="88" Column="31" />
+      <File FileName="Assets/Scripts/Tetris_Blocks/TetrisBlock.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Tetris_Blocks/TetrisBlockFactory.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Game/GameGrid.cs" Line="73" Column="21" />
-      <File FileName="Assets/Scripts/Tetris_Blocks/TetrisBackLBlock.cs" Line="7" Column="2" />
+      <File FileName="Assets/Scripts/UI/HighScoreButton.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Game/GameScore.cs" Line="36" Column="19" />
+      <File FileName="Assets/Scripts/Game/ScoreEnter_Engine.cs" Line="19" Column="3" />
+      <File FileName="Assets/Scripts/Game/HighScoreManager.cs" Line="6" Column="48" />
+      <File FileName="Assets/Scripts/Game/Score.cs" Line="20" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
