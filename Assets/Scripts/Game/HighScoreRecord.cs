@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Score{
+[System.Serializable]
+public class HighScoreRecord{
 	private int scoreValue;
 	private string name;
+	private int numberOfDuplicates;
 
-	public Score(string name, int value){
+	public HighScoreRecord(string name, int value){
 		this.name = name;
 		this.scoreValue = value;
+		this.numberOfDuplicates = 1;
 	}
 
 	public int getScore(){
@@ -17,5 +20,9 @@ public class Score{
 
 	public string getName(){
 		return name;
+	}
+
+	public int getNumberOfDuplicates(){
+		return numberOfDuplicates;
 	}
 }

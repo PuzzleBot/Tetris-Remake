@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -82,13 +83,15 @@ public class Tetris_Engine : MonoBehaviour {
 
 		mainOverlay = GameObject.Find("OverlayCanvas");
 		defeatOverlay = GameObject.Find("DefeatOverlayCanvas");
-		finalScoreText = GameObject.Find ("DefeatOverlayCanvas/Model_ScoreMenu/FinalScoreText");
+		finalScoreText = GameObject.Find ("DefeatOverlayCanvas/FinalScoreText");
 
 		defeatOverlay.SetActive (false);
 		pauseMenu.SetActive (false);
 
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = 60;
+
+		Debug.Log (Application.persistentDataPath);
 	}
 	
 	// Update is called once per frame

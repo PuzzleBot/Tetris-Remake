@@ -49,10 +49,11 @@
      <Compile Include="Assets\Scripts\Game\GameGrid.cs" />
      <Compile Include="Assets\Scripts\Game\GameScore.cs" />
      <Compile Include="Assets\Scripts\Game\HighScoreManager.cs" />
+     <Compile Include="Assets\Scripts\Game\HighScoreRecord.cs" />
+     <Compile Include="Assets\Scripts\Game\HighScoreSortedList.cs" />
      <Compile Include="Assets\Scripts\Game\NextPiece_Holder.cs" />
      <Compile Include="Assets\Scripts\Game\Piece_Holder.cs" />
      <Compile Include="Assets\Scripts\Game\SavePiece_Holder.cs" />
-     <Compile Include="Assets\Scripts\Game\Score.cs" />
      <Compile Include="Assets\Scripts\Game\ScoreEnter_Engine.cs" />
      <Compile Include="Assets\Scripts\Game\Tetris_Engine.cs" />
      <Compile Include="Assets\Scripts\Tetris_Blocks\TetrisBackLBlock.cs" />
