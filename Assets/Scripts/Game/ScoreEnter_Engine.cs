@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScoreEnter_Engine : MonoBehaviour {
-	GameObject inputField;
-	GameObject defeatMenu;
-	GameObject defeatScoreSaveScreen;
+	private GameObject inputField;
+	private GameObject defeatMenu;
+	private GameObject defeatScoreSaveScreen;
+	private int finalScore;
 
 	// Use this for initialization
 	void Awake () {
@@ -13,7 +14,7 @@ public class ScoreEnter_Engine : MonoBehaviour {
 		defeatMenu = GameObject.Find ("DefeatOverlayCanvas/Model_DefeatMenu");
 		defeatScoreSaveScreen = GameObject.Find ("DefeatOverlayCanvas/Model_ScoreMenu");
 		defeatMenu.SetActive (false);
-
+		finalScore = 0;
 	}
 	
 	// Update is called once per frame
@@ -23,5 +24,9 @@ public class ScoreEnter_Engine : MonoBehaviour {
 			defeatMenu.SetActive (true);
 			defeatScoreSaveScreen.SetActive (false);
 		}
+	}
+
+	public void setFinalScore(int score){
+		finalScore = score;
 	}
 }

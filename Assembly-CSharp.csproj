@@ -50,7 +50,6 @@
      <Compile Include="Assets\Scripts\Game\GameScore.cs" />
      <Compile Include="Assets\Scripts\Game\HighScoreManager.cs" />
      <Compile Include="Assets\Scripts\Game\HighScoreRecord.cs" />
-     <Compile Include="Assets\Scripts\Game\HighScoreSortedList.cs" />
      <Compile Include="Assets\Scripts\Game\NextPiece_Holder.cs" />
      <Compile Include="Assets\Scripts\Game\Piece_Holder.cs" />
      <Compile Include="Assets\Scripts\Game\SavePiece_Holder.cs" />

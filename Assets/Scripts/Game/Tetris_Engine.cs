@@ -100,17 +100,17 @@ public class Tetris_Engine : MonoBehaviour {
 			Application.Quit ();
 		}
 
+		/*Halted for animation, or in a menu: don't do anything*/
+		if (gameIsHalted == true) {
+			return;
+		}
+
 		/*Down key accelerates gravity*/
 		if(Input.GetKeyDown("s")){
 			gravityUpdateCount = 5;
 		}
 		else if (Input.GetKeyUp ("s")) {
 			gravityUpdateCount = normalGravityUpdateCount;
-		}
-
-		/*Halted for animation: don't do anything*/
-		if (gameIsHalted == true) {
-			return;
 		}
 
 		/*Key check*/
@@ -258,5 +258,6 @@ public class Tetris_Engine : MonoBehaviour {
 		mainOverlay.SetActive(false);
 
 		finalScoreText.GetComponent<Text> ().text = "Final Score: " + scoreRecords.getScoreValue().ToString ();
+		defeatOverlay.GetComponent<ScoreEnter_Engine>().setFinalScore(scoreRecords.getScoreValue());
 	}
 }
