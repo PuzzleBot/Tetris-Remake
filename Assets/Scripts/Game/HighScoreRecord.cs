@@ -30,4 +30,8 @@ public class HighScoreRecord : IComparable<HighScoreRecord>{
 			return this.scoreValue.CompareTo (compareRecord.getScore ());
 		}
 	}
+
+	public override string ToString(){
+		return name + " - " + scoreValue.ToString();
+	}
 }

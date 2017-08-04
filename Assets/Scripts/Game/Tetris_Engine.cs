@@ -77,13 +77,13 @@ public class Tetris_Engine : MonoBehaviour {
 		gameIsPaused = false;
 		gameIsHalted = false;
 
-		pauseMenu = GameObject.Find("OverlayCanvas/Model_PauseMenu");
-		lineCountText = GameObject.Find ("OverlayCanvas/Model_ScoreText/ScoreCounter");
-		levelText = GameObject.Find ("OverlayCanvas/LevelText");
+		pauseMenu = GameObject.Find("OverlayUI/OverlayCanvas/Model_PauseMenu");
+		lineCountText = GameObject.Find ("OverlayUI/OverlayCanvas/Model_ScoreText/ScoreCounter");
+		levelText = GameObject.Find ("OverlayUI/OverlayCanvas/LevelText");
 
-		mainOverlay = GameObject.Find("OverlayCanvas");
-		defeatOverlay = GameObject.Find("DefeatOverlayCanvas");
-		finalScoreText = GameObject.Find ("DefeatOverlayCanvas/FinalScoreText");
+		mainOverlay = GameObject.Find("OverlayUI/OverlayCanvas");
+		defeatOverlay = GameObject.Find("OverlayUI/DefeatOverlayCanvas");
+		finalScoreText = GameObject.Find ("OverlayUI/DefeatOverlayCanvas/FinalScoreText");
 
 		defeatOverlay.SetActive (false);
 		pauseMenu.SetActive (false);
