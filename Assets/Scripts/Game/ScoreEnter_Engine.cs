@@ -16,7 +16,9 @@ public class ScoreEnter_Engine : MonoBehaviour {
 		defeatMenu = GameObject.Find ("OverlayUI/DefeatOverlayCanvas/Model_DefeatMenu");
 		defeatScoreSaveScreen = GameObject.Find ("OverlayUI/DefeatOverlayCanvas/Model_ScoreMenu");
 		scoreManager = GameObject.Find ("OverlayUI/DefeatOverlayCanvas/High Score Holder").GetComponent<HighScoreManager>();
+
 		defeatMenu.SetActive (false);
+		defeatScoreSaveScreen.SetActive (false);
 		finalScore = 0;
 	}
 	
@@ -32,5 +34,10 @@ public class ScoreEnter_Engine : MonoBehaviour {
 
 	public void setFinalScore(int score){
 		finalScore = score;
+		if (score == 0) {
+			defeatMenu.SetActive (true);
+		} else {
+			defeatScoreSaveScreen.SetActive (true);
+		}
 	}
 }
