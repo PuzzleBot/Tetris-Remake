@@ -39,17 +39,18 @@ public class HighScoreManager : MonoBehaviour {
 
 	/*Reads a binary file containing the arraylist of highscores into the score list*/
 	public void initializeFromFile(string fileName){
-		FileStream stream = new FileStream (fileName, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read);
-		BinaryFormatter formatter = new BinaryFormatter ();
-
 		try{
-			scoreList = (List<HighScoreRecord>)formatter.Deserialize (stream);
+			FileStream stream = new FileStream (fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+			try{
+				BinaryFormatter formatter = new BinaryFormatter ();
+				scoreList = (List<HighScoreRecord>)formatter.Deserialize (stream);
+			} catch(Exception e){
+				scoreList = new List<HighScoreRecord> ();
+			}
+			stream.Close ();
 		} catch(Exception e){
 			scoreList = new List<HighScoreRecord> ();
 		}
-
-
-		stream.Close ();
 	}
 
 	/*Saves the score list as a binary file*/

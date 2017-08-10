@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*Square piece*/
 public class TetrisSquareBlock : TetrisBlock {
-	private static Material blockMaterial = Resources.Load("Piece7_Mat", typeof(Material)) as Material;
+	private static Material blockMaterial = Resources.Load("Materials/Piece7_Mat", typeof(Material)) as Material;
 
 	private Vector3[] rotationConfiguration;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*Backwards L-shaped piece*/
 public class TetrisBackLBlock : TetrisBlock {
-	private static Material blockMaterial = Resources.Load("Piece6_Mat", typeof(Material)) as Material;
+	private static Material blockMaterial = Resources.Load("Materials/Piece6_Mat", typeof(Material)) as Material;
 
 	private Vector3[][] rotationConfigurations;
 

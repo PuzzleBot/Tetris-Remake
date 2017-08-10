@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*Vertical line piece*/
 public class TetrisLineBlock : TetrisBlock {
-	private static Material blockMaterial = Resources.Load("Piece1_Mat", typeof(Material)) as Material;
+	private static Material blockMaterial = Resources.Load("Materials/Piece1_Mat", typeof(Material)) as Material;
 
 	private Vector3[][] rotationConfigurations;
 

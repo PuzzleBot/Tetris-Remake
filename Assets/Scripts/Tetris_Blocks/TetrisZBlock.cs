@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*Z-shaped piece*/
 public class TetrisZBlock : TetrisBlock {
-	private static Material blockMaterial = Resources.Load("Piece3_Mat", typeof(Material)) as Material;
+	private static Material blockMaterial = Resources.Load("Materials/Piece3_Mat", typeof(Material)) as Material;
 
 	private Vector3[][] rotationConfigurations;
 

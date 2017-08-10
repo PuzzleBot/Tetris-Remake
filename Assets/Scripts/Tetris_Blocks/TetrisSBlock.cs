@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*S-shaped piece*/
 public class TetrisSBlock : TetrisBlock {
-	private static Material blockMaterial = Resources.Load("Piece2_Mat", typeof(Material)) as Material;
+	private static Material blockMaterial = Resources.Load("Materials/Piece2_Mat", typeof(Material)) as Material;
 
 	private Vector3[][] rotationConfigurations;
 

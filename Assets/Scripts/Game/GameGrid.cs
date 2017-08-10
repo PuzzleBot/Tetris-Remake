@@ -38,7 +38,7 @@ public class GameGrid : MonoBehaviour {
 		int i;
 		int j;
 
-		defeatMaterial = Resources.Load("Defeat_Mat", typeof(Material)) as Material;
+		defeatMaterial = Resources.Load("Materials/Defeat_Mat", typeof(Material)) as Material;
 
 		gameEngine = GameObject.Find ("GameRuleEngine").GetComponent<Tetris_Engine> ();
 		if (gameEngine == null) {

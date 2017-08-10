@@ -13,7 +13,7 @@ public class HighScoreBackButton : MonoBehaviour {
 	}
 	
 	public void closeScene (){
-		SceneManager.SetActiveScene (SceneManager.GetSceneByName("Main Game"));
+		//SceneManager.SetActiveScene (SceneManager.GetSceneByName("Main Game"));
 		SceneManager.UnloadSceneAsync ("High Score Screen");
 	}
 }
