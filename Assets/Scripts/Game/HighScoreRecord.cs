@@ -5,6 +5,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class HighScoreRecord : IComparable<HighScoreRecord>{
+	public const int nameDisplayLimit = 10;
 	private int scoreValue;
 	private string name;
 
@@ -32,6 +33,14 @@ public class HighScoreRecord : IComparable<HighScoreRecord>{
 	}
 
 	public override string ToString(){
-		return name + " - " + scoreValue.ToString();
+		if (name.Length <= nameDisplayLimit) {
+			return name + " - " + scoreValue.ToString ();
+		} else {
+			return name.Substring(0, nameDisplayLimit) + "... - " + scoreValue.ToString ();
+		}
+	}
+
+	public HighScoreRecord Clone(){
+		return new HighScoreRecord (this.name, this.scoreValue);
 	}
 }

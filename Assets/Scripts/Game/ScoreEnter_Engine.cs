@@ -9,6 +9,7 @@ public class ScoreEnter_Engine : MonoBehaviour {
 	private GameObject defeatScoreSaveScreen;
 	private HighScoreManager scoreManager;
 	private int finalScore;
+	private bool enterPressed;
 
 	// Use this for initialization
 	void Awake () {
@@ -20,15 +21,14 @@ public class ScoreEnter_Engine : MonoBehaviour {
 		defeatMenu.SetActive (false);
 		defeatScoreSaveScreen.SetActive (false);
 		finalScore = 0;
+		enterPressed = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey (KeyCode.Return)) {
-			/*Save the highscore, and show the defeat menu*/
-			scoreManager.addHighScore (new HighScoreRecord(inputFieldText.GetComponent<Text>().text, finalScore));
-			defeatMenu.SetActive (true);
-			defeatScoreSaveScreen.SetActive (false);
+		if ((Input.GetKey (KeyCode.Return)) && (enterPressed == false)) {
+			scoreSaveProcedure ();
+			enterPressed = true;
 		}
 	}
 
@@ -39,5 +39,12 @@ public class ScoreEnter_Engine : MonoBehaviour {
 		} else {
 			defeatScoreSaveScreen.SetActive (true);
 		}
+	}
+
+	public void scoreSaveProcedure(){
+		/*Save the highscore, and show the defeat menu*/
+		scoreManager.addHighScore (new HighScoreRecord(inputFieldText.GetComponent<Text>().text, finalScore));
+		defeatMenu.SetActive (true);
+		defeatScoreSaveScreen.SetActive (false);
 	}
 }

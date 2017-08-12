@@ -16,10 +16,10 @@ play button at the top.
 Use asd as left, right, and down respectively. Use q and e to rotate left and right.
 Use p to pause, and press escape to quit.
 
-Standard tetris rules apply: fill rows with blocks to clear them.
+Standard tetris rules apply: fill rows with blocks to clear them. Clear more lines at
+once to get more points!
 
-(Lose and win conditions haven't been implemented yet)
-
+You lose if there is no more space for a new piece to enter the play area.
 
 
 
@@ -39,11 +39,13 @@ So far, the following features have been implemented:
 * Pause (p)
 * Forcing blocks to the bottom instantly (w)
 * A lose condition (no space for a new block)
+* A scoring system
+* High Score Saving
 
 
 ## What's Next?
 
-* Win conditions (A scoring system)
+* Scaling Difficulty
 * A pause menu
 * Game instructions
 * Options (Keybindings, etc)

@@ -26,7 +26,8 @@ public class HighScoreManager : MonoBehaviour {
 	}
 
 	public void addHighScore(HighScoreRecord newHighScore){
-		scoreList.Add (newHighScore);
+		Debug.Log ("Saving score: " + newHighScore.ToString ());
+		scoreList.Add (newHighScore.Clone());
 		scoreList.Sort ();
 
 		/*Only the 10 highest scores are needed*/
