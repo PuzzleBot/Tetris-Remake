@@ -66,6 +66,8 @@
      <Compile Include="Assets\Scripts\Tetris_Blocks\TetrisZBlock.cs" />
      <Compile Include="Assets\Scripts\UI\HighScoreBackButton.cs" />
      <Compile Include="Assets\Scripts\UI\HighScoreButton.cs" />
+     <Compile Include="Assets\Scripts\UI\Options\KeyBindButton.cs" />
+     <Compile Include="Assets\Scripts\UI\Options\KeyBindings.cs" />
      <Compile Include="Assets\Scripts\UI\PauseButton.cs" />
      <Compile Include="Assets\Scripts\UI\QuitButton.cs" />
      <Compile Include="Assets\Scripts\UI\StartButton.cs" />
