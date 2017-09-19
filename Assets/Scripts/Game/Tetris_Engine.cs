@@ -14,9 +14,10 @@ public class Tetris_Engine : MonoBehaviour {
 	private SavePiece_Holder saveHolder;
 
 	private TetrisBlockFactory pieceFactory;
-
 	private TetrisBlock currentPiece;
 
+	/*Keybinding controls*/
+	private KeyBindings keyBindings;
 
 	/*Scoring variables*/
 	public GameScore scoreRecords;
@@ -62,6 +63,8 @@ public class Tetris_Engine : MonoBehaviour {
 		nextHolder.generateNewPiece ();
 		moveNextPieceToCurrent ();
 
+		keyBindings = KeyBindings.getInstance ();
+
 		scoreRecords = new GameScore();
 		linesDestroyed = 0;
 		level = 1;
@@ -105,7 +108,7 @@ public class Tetris_Engine : MonoBehaviour {
 			return;
 		}
 
-		/*Down key accelerates gravity*/
+		/*Accelerate gravity*/
 		if(Input.GetKeyDown("s")){
 			gravityUpdateCount = 5;
 		}

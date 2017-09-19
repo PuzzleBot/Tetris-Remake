@@ -16,8 +16,15 @@ public class KeyBindings{
 	private string savePieceKey;
 	private string pauseKey;
 
+	public enum KeyAction {AccelerateDown, ForceDown, MoveLeft, MoveRight, RotateClockwise, RotateCounterClockwise, SavePiece, Pause};
+
+	private string[] keyBindArray;
+
 	/*Private intitialization - only one instance of this is allowed.*/
 	private KeyBindings() {
+		/*Keybindings are stored in an array for easy iteration*/
+		keyBindArray = new string[8];
+
 		/*Set the keybinds to their defaults if they are unset, otherwise initialize
 		the keybinds to what they previously were*/
 		if (!PlayerPrefs.HasKey ("KeyBind_AccelerateDown")) {
@@ -77,10 +84,11 @@ public class KeyBindings{
 		}
 
 		PlayerPrefs.Save ();
+		Debug.Log (ToString ());
 	}
 
 	/*Singleton - instance access method*/
-	public KeyBindings getInstance(){
+	public static KeyBindings getInstance(){
 		if (instance == null) {
 			instance = new KeyBindings ();
 		}
@@ -140,39 +148,17 @@ public class KeyBindings{
 		PlayerPrefs.Save ();
 	}
 
+	/*Gets the key bound to the action*/
 	public object getBoundKey(string keyAction){
 		object key = null;
 		string storedKeyString;
 
-		switch (keyAction) {
-		case "AccelerateDown":
-			storedKeyString = PlayerPrefs.GetString ("KeyBind_AccelerateDown");
-			break;
-		case "ForceDown":
-			storedKeyString = PlayerPrefs.GetString ("KeyBind_ForceDown");
-			break;
-		case "MoveLeft":
-			storedKeyString = PlayerPrefs.GetString ("KeyBind_MoveLeft");
-			break;
-		case "MoveRight":
-			storedKeyString = PlayerPrefs.GetString ("KeyBind_MoveRight");
-			break;
-		case "RotateClockwise":
-			storedKeyString = PlayerPrefs.GetString ("KeyBind_RotateClockwise");
-			break;
-		case "RotateCounterClockwise":
-			storedKeyString = PlayerPrefs.GetString ("KeyBind_RotateCounterClockwise");
-			break;
-		case "SavePiece":
-			storedKeyString = PlayerPrefs.GetString ("KeyBind_SavePiece");
-			break;
-		case "Pause":
-			storedKeyString = PlayerPrefs.GetString ("KeyBind_Pause");
-			break;
-		default:
-			throw new InvalidKeyException ("Error: Invalid key action. Devs, plz.");
+		try{
+			storedKeyString = getBoundKeyString (keyAction);
+		} catch (InvalidKeyException e){
+			throw e;
 		}
-
+			
 		if (storedKeyString.Length == 1) {
 			key = storedKeyString;
 		} else {
@@ -194,5 +180,52 @@ public class KeyBindings{
 		}
 
 		return key;
+	}
+
+	/*Gets the key bound to the action, in string form*/
+	public string getBoundKeyString(string keyAction){
+		string storedKeyString;
+
+		switch (keyAction) {
+		case "AccelerateDown":
+			storedKeyString = accelerateDownKey;
+			break;
+		case "ForceDown":
+			storedKeyString = forceDownKey;
+			break;
+		case "MoveLeft":
+			storedKeyString = moveLeftKey;
+			break;
+		case "MoveRight":
+			storedKeyString = moveRightKey;
+			break;
+		case "RotateClockwise":
+			storedKeyString = rotateClockwiseKey;
+			break;
+		case "RotateCounterClockwise":
+			storedKeyString = rotateCounterClockwiseKey;
+			break;
+		case "SavePiece":
+			storedKeyString = savePieceKey;
+			break;
+		case "Pause":
+			storedKeyString = pauseKey;
+			break;
+		default:
+			throw new InvalidKeyException ("Error: Invalid key action: " + keyAction);
+		}
+
+		return storedKeyString;
+	}
+
+	public override string ToString(){
+		return "AccelDown: " + accelerateDownKey + "\n" +
+			"ForceDown: " + forceDownKey + "\n" +
+			"MoveLeft: " + moveLeftKey + "\n" +
+			"MoveRight: " + moveRightKey + "\n" +
+			"RotateClockwise: " + rotateClockwiseKey + "\n" +
+			"RotateCCW: " + rotateCounterClockwiseKey + "\n" +
+			"SavePiece: " + savePieceKey + "\n" +
+			"Pause: " + pauseKey + "\n";
 	}
 }
