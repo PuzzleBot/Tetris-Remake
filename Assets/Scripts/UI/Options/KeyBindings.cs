@@ -28,57 +28,49 @@ public class KeyBindings{
 		/*Set the keybinds to their defaults if they are unset, otherwise initialize
 		the keybinds to what they previously were*/
 		if (!PlayerPrefs.HasKey ("KeyBind_AccelerateDown")) {
-			accelerateDownKey = "s";
-			PlayerPrefs.SetString ("KeyBind_AccelerateDown", accelerateDownKey);
+			bindKey ("AccelerateDown", KeyCode.S);
 		} else {
 			accelerateDownKey = PlayerPrefs.GetString ("KeyBind_AccelerateDown");
 		}
 
 		if (!PlayerPrefs.HasKey ("KeyBind_ForceDown")) {
-			forceDownKey = "w";
-			PlayerPrefs.SetString ("KeyBind_ForceDown", forceDownKey);
+			bindKey ("ForceDown", KeyCode.W);
 		} else {
 			forceDownKey = PlayerPrefs.GetString ("KeyBind_ForceDown");
 		}
 
 		if (!PlayerPrefs.HasKey ("KeyBind_MoveLeft")) {
-			moveLeftKey = "a";
-			PlayerPrefs.SetString ("KeyBind_MoveLeft", moveLeftKey);
+			bindKey ("MoveLeft", KeyCode.A);
 		} else {
 			moveLeftKey = PlayerPrefs.GetString ("KeyBind_MoveLeft");
 		}
 
 		if (!PlayerPrefs.HasKey ("KeyBind_MoveRight")) {
-			moveRightKey = "d";
-			PlayerPrefs.SetString ("KeyBind_MoveRight", moveRightKey);
+			bindKey ("MoveRight", KeyCode.D);
 		} else {
 			moveRightKey = PlayerPrefs.GetString ("KeyBind_MoveRight");
 		}
 
 		if (!PlayerPrefs.HasKey ("KeyBind_RotateClockwise")) {
-			rotateClockwiseKey = "e";
-			PlayerPrefs.SetString ("KeyBind_RotateClockwise", rotateClockwiseKey);
+			bindKey ("RotateClockWise", KeyCode.E);
 		} else {
 			rotateClockwiseKey = PlayerPrefs.GetString ("KeyBind_RotateClockwise");
 		}
 
 		if (!PlayerPrefs.HasKey ("KeyBind_RotateCounterClockwise")) {
-			rotateCounterClockwiseKey = "q";
-			PlayerPrefs.SetString ("KeyBind_RotateCounterClockwise", rotateCounterClockwiseKey);
+			bindKey ("RotateCounterClockwise", KeyCode.Q);
 		} else {
 			rotateCounterClockwiseKey = PlayerPrefs.GetString ("KeyBind_RotateCounterClockwise");
 		}
 
 		if (!PlayerPrefs.HasKey ("KeyBind_SavePiece")) {
-			savePieceKey = "Space";
-			PlayerPrefs.SetString ("KeyBind_SavePiece", savePieceKey);
+			bindKey ("SavePiece", KeyCode.Space);
 		} else {
 			savePieceKey = PlayerPrefs.GetString ("KeyBind_SavePiece");
 		}
 
 		if (!PlayerPrefs.HasKey ("KeyBind_Pause")) {
-			pauseKey = "p";
-			PlayerPrefs.SetString ("KeyBind_Pause", pauseKey);
+			bindKey ("Pause", KeyCode.P);
 		} else {
 			pauseKey = PlayerPrefs.GetString ("KeyBind_Pause");
 		}
@@ -95,7 +87,8 @@ public class KeyBindings{
 		return instance;
 	}
 
-	public void bindKey(string toModify, object key){
+	public void bindKey(string toModify, KeyCode key){
+		string keyString = key.ToString ();
 		if ((key.ToString ().Length > 1) && 
 			(!key.ToString().Equals("Space")) &&
 			(!key.ToString().Equals("LeftArrow")) &&
@@ -108,37 +101,41 @@ public class KeyBindings{
 			throw new InvalidKeyException ("\"" + key.ToString() + "\" cannot be binded. Please choose another key.");
 		}
 
+		if (keyString.Length <= 1) {
+			keyString.ToLower ();
+		}
+
 		switch (toModify) {
 		case "AccelerateDown":
-			accelerateDownKey = key.ToString ();
+			accelerateDownKey = keyString;
 			PlayerPrefs.SetString ("KeyBind_AccelerateDown", accelerateDownKey);
 			break;
 		case "ForceDown":
-			forceDownKey = key.ToString ();
+			forceDownKey = keyString;
 			PlayerPrefs.SetString ("KeyBind_ForceDown", forceDownKey);
 			break;
 		case "MoveLeft":
-			moveLeftKey = key.ToString ();
+			moveLeftKey = keyString;
 			PlayerPrefs.SetString ("KeyBind_MoveLeft", moveLeftKey);
 			break;
 		case "MoveRight":
-			moveRightKey = key.ToString ();
+			moveRightKey = keyString;
 			PlayerPrefs.SetString ("KeyBind_MoveRight", moveRightKey);
 			break;
 		case "RotateClockwise":
-			rotateClockwiseKey = key.ToString ();
+			rotateClockwiseKey = keyString;
 			PlayerPrefs.SetString ("KeyBind_RotateClockwise", rotateClockwiseKey);
 			break;
 		case "RotateCounterClockwise":
-			rotateCounterClockwiseKey = key.ToString ();
+			rotateCounterClockwiseKey = keyString;
 			PlayerPrefs.SetString ("KeyBind_RotateCounterClockwise", rotateCounterClockwiseKey);
 			break;
 		case "SavePiece":
-			savePieceKey = key.ToString ();
+			savePieceKey = keyString;
 			PlayerPrefs.SetString ("KeyBind_SavePiece", savePieceKey);
 			break;
 		case "Pause":
-			pauseKey = key.ToString ();
+			pauseKey = keyString;
 			PlayerPrefs.SetString ("KeyBind_Pause", pauseKey);
 			break;
 		default:
@@ -149,8 +146,8 @@ public class KeyBindings{
 	}
 
 	/*Gets the key bound to the action*/
-	public object getBoundKey(string keyAction){
-		object key = null;
+	public KeyCode getBoundKey(string keyAction){
+		KeyCode key = KeyCode.Space;
 		string storedKeyString;
 
 		try{
@@ -160,7 +157,7 @@ public class KeyBindings{
 		}
 			
 		if (storedKeyString.Length == 1) {
-			key = storedKeyString;
+			key = (KeyCode) System.Enum.Parse(typeof(KeyCode), storedKeyString);
 		} else {
 			switch (storedKeyString) {
 			case "Space":
@@ -172,9 +169,21 @@ public class KeyBindings{
 			case "RightShift":
 				key = KeyCode.RightShift;
 				break;
+			case "LeftArrow":
+				key = KeyCode.LeftArrow;
+				break;
+			case "RightArrow":
+				key = KeyCode.RightArrow;
+				break;
+			case "DownArrow":
+				key = KeyCode.DownArrow;
+				break;
+			case "UpArrow":
+				key = KeyCode.UpArrow;
+				break;
 			default:
 				Debug.Log ("Invalid key: " + storedKeyString);
-				key = "t";
+				key = KeyCode.Space;
 				break;
 			}
 		}
@@ -227,5 +236,16 @@ public class KeyBindings{
 			"RotateCCW: " + rotateCounterClockwiseKey + "\n" +
 			"SavePiece: " + savePieceKey + "\n" +
 			"Pause: " + pauseKey + "\n";
+	}
+
+	public void resetToDefaults(){
+		bindKey ("AccelerateDown", KeyCode.S);
+		bindKey ("ForceDown", KeyCode.W);
+		bindKey ("MoveLeft", KeyCode.A);
+		bindKey ("MoveRight", KeyCode.D);
+		bindKey ("RotateClockWise", KeyCode.E);
+		bindKey ("RotateCounterClockwise", KeyCode.Q);
+		bindKey ("SavePiece", KeyCode.Space);
+		bindKey ("Pause", KeyCode.P);
 	}
 }

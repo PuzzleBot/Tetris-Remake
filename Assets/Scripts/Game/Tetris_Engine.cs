@@ -109,10 +109,10 @@ public class Tetris_Engine : MonoBehaviour {
 		}
 
 		/*Accelerate gravity*/
-		if(Input.GetKeyDown("s")){
+		if(Input.GetKeyDown(keyBindings.getBoundKey("AccelerateDown"))){
 			gravityUpdateCount = 5;
 		}
-		else if (Input.GetKeyUp ("s")) {
+		else if (Input.GetKeyUp (keyBindings.getBoundKey("AccelerateDown"))) {
 			gravityUpdateCount = normalGravityUpdateCount;
 		}
 
@@ -122,7 +122,7 @@ public class Tetris_Engine : MonoBehaviour {
 		}
 		else {
 			/*Game paused*/
-			if(Input.GetKey("p")){
+			if(Input.GetKey(keyBindings.getBoundKey("Pause"))){
 				togglePause ();
 				keyCounter = 0;
 			}
@@ -131,35 +131,36 @@ public class Tetris_Engine : MonoBehaviour {
 				return;
 			}
 
-			if (Input.GetKey ("a")) {
+			if (Input.GetKey (keyBindings.getBoundKey("MoveLeft"))) {
 				/*Collision check for left movement*/
 				if (!grid.collision (TetrisBlock.MoveType.LEFT, currentPiece)) {
 					currentPiece.shiftLeft ();
 				}
 				keyCounter = 0;
-			} else if (Input.GetKey ("d")) {
+			} else if (Input.GetKey (keyBindings.getBoundKey("MoveRight"))) {
+				/*Right Movement*/
 				if (!grid.collision (TetrisBlock.MoveType.RIGHT, currentPiece)) {
 					currentPiece.shiftRight ();
 				}
 				keyCounter = 0;
-			} else if (Input.GetKey ("q")) {
+			} else if (Input.GetKey (keyBindings.getBoundKey("RotateCounterClockwise"))) {
 				if (!grid.collision (TetrisBlock.MoveType.ROTATE_LEFT, currentPiece)) {
 					currentPiece.rotateRight ();
 				}
 				keyCounter = 0;
-			} else if (Input.GetKey ("e")) {
+			} else if (Input.GetKey (keyBindings.getBoundKey("RotateClockwise"))) {
 				if (!grid.collision (TetrisBlock.MoveType.ROTATE_RIGHT, currentPiece)) {
 					currentPiece.rotateRight ();
 				}
 				keyCounter = 0;
-			} else if (Input.GetKey ("w")) {
+			} else if (Input.GetKey (keyBindings.getBoundKey("ForceDown"))) {
 				/*Send the piece to the bottom*/
 				grid.forcePieceToBottom (currentPiece);
 
 				/*Do a collision check immediately*/
 				gravityCounter = gravityUpdateCount + 1;
 				keyCounter = 0;
-			} else if (Input.GetKey(KeyCode.Space)){
+			} else if (Input.GetKey(keyBindings.getBoundKey("SavePiece"))){
 				if(saveHolder.alreadySwappedOnce == false){
 					swapCurrentWithSavedPiece ();
 					keyCounter = 0;	

@@ -24,7 +24,7 @@ public class KeyBindButton : MonoBehaviour {
 
 		GetComponent<Button> ().onClick.AddListener (showKeyBindUI);
 
-		Debug.Log (actionToBind);
+		//Debug.Log (actionToBind);
 	}
 	
 	public void showKeyBindUI(){
