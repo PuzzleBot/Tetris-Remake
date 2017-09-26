@@ -53,6 +53,9 @@ public class Tetris_Engine : MonoBehaviour {
 			Application.Quit ();
 		}
 
+		/*Debug.Log ("Deleting all preferences");
+		PlayerPrefs.DeleteAll ();*/
+
 		/*Get the holder scripts from the holder objects in the scene*/
 		nextHolder = GameObject.Find ("Model_Nextpiece_Cage").GetComponent<NextPiece_Holder>();
 		saveHolder = GameObject.Find ("Model_Hold_Cage").GetComponent<SavePiece_Holder>();

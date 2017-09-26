@@ -12,6 +12,7 @@ Another way to compile and run the game is to open this
 project in the Unity development client, and click the
 play button at the top.
 
+
 ## Playing the game
 Use asd as left, right, and down respectively. Use q and e to rotate left and right.
 Use p to pause, and press escape to quit.
@@ -28,16 +29,17 @@ You lose if there is no more space for a new piece to enter the play area.
 So far, the following features have been implemented:
 
 * A Title Screen
+* An Option Screen - with Keybindings that work!
 * Tetris block generation
-* Tetris block controls, minus the w key
+* Tetris block controls
 * Tetris block gravity
 * The basic playing field
 * Row clearing
 * Cleared row tracking
-* Piece Holding (space)
-* A quit button (esc)
-* Pause (p)
-* Forcing blocks to the bottom instantly (w)
+* Piece Holding (space by default)
+* A quit button (esc, only while the game is running)
+* Pause (p by default)
+* Forcing blocks to the bottom instantly (w by default)
 * A lose condition (no space for a new block)
 * A scoring system
 * High Score Saving
@@ -48,9 +50,8 @@ So far, the following features have been implemented:
 * Scaling Difficulty
 * A pause menu
 * Game instructions
-* Options (Keybindings, etc)
 * Audio
-* Asset loading optimizations
+* Code cleanup + code comment cleanup
 
 
 
