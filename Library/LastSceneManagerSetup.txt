@@ -3,11 +3,11 @@ sceneSetups:
   isLoaded: 0
   isActive: 0
 - path: Assets/Scenes/Title Screen.unity
-  isLoaded: 0
-  isActive: 0
+  isLoaded: 1
+  isActive: 1
 - path: Assets/Scenes/High Score Screen.unity
   isLoaded: 0
   isActive: 0
 - path: Assets/Scenes/Option Screen.unity
-  isLoaded: 1
-  isActive: 1
+  isLoaded: 0
+  isActive: 0

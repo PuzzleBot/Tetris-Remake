@@ -16,14 +16,14 @@ public class KeyBindings{
 	private string savePieceKey;
 	private string pauseKey;
 
-	public enum KeyAction {AccelerateDown, ForceDown, MoveLeft, MoveRight, RotateClockwise, RotateCounterClockwise, SavePiece, Pause};
+	//public enum KeyAction {AccelerateDown, ForceDown, MoveLeft, MoveRight, RotateClockwise, RotateCounterClockwise, SavePiece, Pause};
 
-	private string[] keyBindArray;
+	//private string[] keyBindArray;
 
 	/*Private intitialization - only one instance of this is allowed.*/
 	private KeyBindings() {
 		/*Keybindings are stored in an array for easy iteration*/
-		keyBindArray = new string[8];
+		//keyBindArray = new string[8];
 
 		/*Set the keybinds to their defaults if they are unset, otherwise initialize
 		the keybinds to what they previously were*/
@@ -52,7 +52,7 @@ public class KeyBindings{
 		}
 
 		if (!PlayerPrefs.HasKey ("KeyBind_RotateClockwise")) {
-			bindKey ("RotateClockWise", KeyCode.E);
+			bindKey ("RotateClockwise", KeyCode.E);
 		} else {
 			rotateClockwiseKey = PlayerPrefs.GetString ("KeyBind_RotateClockwise");
 		}
@@ -139,7 +139,7 @@ public class KeyBindings{
 			PlayerPrefs.SetString ("KeyBind_Pause", pauseKey);
 			break;
 		default:
-			throw new InvalidKeyException ("Error: Invalid key action. Devs, plz.");
+			throw new InvalidKeyException ("Error: Invalid key action - " + toModify);
 		}
 
 		PlayerPrefs.Save ();
@@ -243,7 +243,7 @@ public class KeyBindings{
 		bindKey ("ForceDown", KeyCode.W);
 		bindKey ("MoveLeft", KeyCode.A);
 		bindKey ("MoveRight", KeyCode.D);
-		bindKey ("RotateClockWise", KeyCode.E);
+		bindKey ("RotateClockwise", KeyCode.E);
 		bindKey ("RotateCounterClockwise", KeyCode.Q);
 		bindKey ("SavePiece", KeyCode.Space);
 		bindKey ("Pause", KeyCode.P);
