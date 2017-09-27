@@ -43,11 +43,12 @@ So far, the following features have been implemented:
 * A lose condition (no space for a new block)
 * A scoring system
 * High Score Saving
+* Scaling difficulty - pieces fall faster at higher levels (level increases
+  per 10 lines the player has cleared)
 
 
 ## What's Next?
 
-* Scaling Difficulty
 * A pause menu
 * Game instructions
 * Audio
