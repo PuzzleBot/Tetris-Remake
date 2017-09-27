@@ -22,7 +22,6 @@ public class Tetris_Engine : MonoBehaviour {
 	/*Scoring variables*/
 	public GameScore scoreRecords;
 	public int linesDestroyed;
-	public int level;
 	public bool defeat;
 
 	/*Timer counters*/
@@ -70,7 +69,6 @@ public class Tetris_Engine : MonoBehaviour {
 
 		scoreRecords = new GameScore();
 		linesDestroyed = 0;
-		level = 1;
 		defeat = false;
 
 		gravityCounter = 0;
@@ -113,7 +111,7 @@ public class Tetris_Engine : MonoBehaviour {
 
 		/*Accelerate gravity*/
 		if(Input.GetKeyDown(keyBindings.getBoundKey("AccelerateDown"))){
-			gravityUpdateCount = 5;
+			gravityUpdateCount = 3;
 		}
 		else if (Input.GetKeyUp (keyBindings.getBoundKey("AccelerateDown"))) {
 			gravityUpdateCount = normalGravityUpdateCount;
@@ -168,6 +166,12 @@ public class Tetris_Engine : MonoBehaviour {
 					swapCurrentWithSavedPiece ();
 					keyCounter = 0;	
 				}
+			} else if (Input.GetKey (KeyCode.Comma)) {
+				/*Debug key "," - increment level*/
+				scoreRecords.incrementLevel ();
+				levelText.GetComponent<Text> ().text = "Level " + scoreRecords.getLevel().ToString();
+				updateLevelGravity(scoreRecords.getLevel());
+				keyCounter = 0;
 			}
 		}
 
@@ -189,6 +193,7 @@ public class Tetris_Engine : MonoBehaviour {
 				scoreRecords.addLineClearScore (linesDestroyed);
 				lineCountText.GetComponent<Text> ().text = scoreRecords.getScoreValue().ToString();
 				levelText.GetComponent<Text> ().text = "Level " + scoreRecords.getLevel().ToString();
+				updateLevelGravity(scoreRecords.getLevel());
 
 				moveNextPieceToCurrent ();
 				saveHolder.alreadySwappedOnce = false;
@@ -266,5 +271,19 @@ public class Tetris_Engine : MonoBehaviour {
 
 		finalScoreText.GetComponent<Text> ().text = "Final Score: " + scoreRecords.getScoreValue().ToString ();
 		defeatOverlay.GetComponent<ScoreEnter_Engine>().setFinalScore(scoreRecords.getScoreValue());
+	}
+
+	public void updateLevelGravity(int newLevel){
+		setGravity (30 - ((newLevel) * 2));
+	}
+
+	private void setGravity(int newGravityUpdateCount){
+		if (newGravityUpdateCount < 3) {
+			normalGravityUpdateCount = 3;
+			gravityUpdateCount = normalGravityUpdateCount;
+		} else {
+			normalGravityUpdateCount = newGravityUpdateCount;
+			gravityUpdateCount = normalGravityUpdateCount;
+		}
 	}
 }

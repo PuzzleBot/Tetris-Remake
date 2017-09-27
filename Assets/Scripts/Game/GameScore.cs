@@ -54,4 +54,8 @@ public class GameScore{
 	public int getLevel(){
 		return level;
 	}
+
+	public void incrementLevel(){
+		level++;
+	}
 }
