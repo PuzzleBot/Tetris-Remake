@@ -1,6 +1,8 @@
 # Tetris-Remake
 A recreation of Tetris in Unity!
 
+[Here is a video showing some gameplay from the last milestone version 0.4.](https://www.youtube.com/watch?v=za7G8Oq1yLs)
+
 
 ## Running the program
 The game is still being worked on, using the Unity engine.
