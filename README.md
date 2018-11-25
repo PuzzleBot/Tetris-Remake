@@ -11,8 +11,8 @@ Builds of the game are found under Releases/
 If there is more than one build, look for the one with the highest version number.
 
 Another way to compile and run the game is to open this
-project in the Unity development client, and click the
-play button at the top.
+project in the Unity development client, move all the scenes in
+from the assets, and click the play button at the top.
 
 
 ## Playing the game

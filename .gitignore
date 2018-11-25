@@ -1,1 +1,6 @@
-/Temp/
+Library/
+ProjectSettings/
+obj/
+*.sln
+*.userprefs
+Temp/
